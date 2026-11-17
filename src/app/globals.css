@@ -35,6 +35,8 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-subtle: var(--primary-subtle);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -46,6 +48,12 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Wedding Theme Palette Recommendations */
+  --color-cream: var(--cream);
+  --color-blush-pink: var(--blush-pink);
+  --color-champagne: var(--champagne);
+  --color-charcoal: var(--charcoal);
 }
 
 :root {
@@ -55,8 +63,10 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.42 0.16 15);
+  --primary-foreground: oklch(0.99 0 0);
+  --primary-hover: oklch(0.36 0.15 15);
+  --primary-subtle: oklch(0.95 0.035 15);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -81,6 +91,12 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Wedding Theme Recommendations (Root Variables) */
+  --cream: oklch(0.98 0.015 95); /* Warm Bridal Cream (~#fbf8f0) */
+  --blush-pink: oklch(0.88 0.05 15); /* Soft Romantic Blush Pink (~#f9d8de) */
+  --champagne: oklch(0.92 0.035 85); /* Celebratory Champagne Gold (~#f4e6d0) */
+  --charcoal: oklch(0.28 0.02 260); /* Elegant Deep Charcoal (~#2e343b) */
 }
 
 .dark {
@@ -90,8 +106,10 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  --primary: oklch(0.72 0.14 15);
+  --primary-foreground: oklch(0.16 0.04 15);
+  --primary-hover: oklch(0.78 0.13 15);
+  --primary-subtle: oklch(0.26 0.05 15);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
@@ -115,6 +133,12 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* Wedding Theme Recommendations (Dark Mode Harmonized) */
+  --cream: oklch(0.92 0.015 95);
+  --blush-pink: oklch(0.78 0.06 15);
+  --champagne: oklch(0.82 0.04 85);
+  --charcoal: oklch(0.32 0.02 260);
 }
 
 @layer base {
