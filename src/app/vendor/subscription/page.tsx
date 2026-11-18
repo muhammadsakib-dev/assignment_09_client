@@ -1,10 +1,10 @@
-import { ArrowRight, Check, Crown, ShieldCheck } from "lucide-react";
+import { Check, Crown, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { DashboardShell } from "@/components/dashboard";
+import { UpgradeToPremiumButton } from "@/components/vendor";
 import { auth } from "@/lib/auth";
 import { getProfile } from "@/services/read/getProfile";
 import { getVendorServices } from "@/services/read/getVendorServices";
@@ -146,18 +146,10 @@ async function SubscriptionContent() {
             </div>
           ) : (
             <div className="space-y-2.5">
-              <Link
-                href="/pricing"
-                className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-full bg-primary hover:bg-primary-hover text-primary-foreground text-sm font-semibold shadow-md transition-all"
-              >
-                <span>Upgrade to Premium</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+              <UpgradeToPremiumButton />
               <p className="flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground">
                 <ShieldCheck className="w-3.5 h-3.5 text-primary" />
-                <span>
-                  Stripe Checkout integration ready for payment activation.
-                </span>
+                <span>Encrypted test payment powered by Stripe Checkout.</span>
               </p>
             </div>
           )}
