@@ -28,6 +28,12 @@ export const auth = betterAuth({
         defaultValue: "user",
         input: true,
       },
+      isBlocked: {
+        type: "boolean",
+        required: false,
+        defaultValue: false,
+        input: false,
+      },
     },
   },
   databaseHooks: {
@@ -41,6 +47,7 @@ export const auth = betterAuth({
               ...user,
               // Block self-registration as admin; admin promotion happens in DB only
               role: PUBLIC_ROLES.has(requestedRole) ? requestedRole : "user",
+              isBlocked: false,
             },
           };
         },

@@ -1,16 +1,34 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
+import { AboutSteps, AboutValues } from "@/components/about";
+import { Hero } from "@/components/home";
+import { FeaturedServices, ServiceCategories } from "@/components/services";
+import { ServicesSkeleton } from "@/suspense/services-skeleton";
 
 export const metadata: Metadata = {
-  title: "Home",
-  description: "Welcome to the home page of our application",
+  title: "WedPlan | Plan, Book & Celebrate Your Dream Wedding",
+  description:
+    "Discover verified wedding venues, photographers, florists, caterers, and stylists on WedPlan.",
 };
 
-const Home = () => {
+export default function Home() {
   return (
-    <div>
-     
+    <div className="flex flex-col">
+      <Hero />
+      <Suspense fallback={null}>
+        <ServiceCategories />
+      </Suspense>
+      <Suspense
+        fallback={
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+            <ServicesSkeleton />
+          </div>
+        }
+      >
+        <FeaturedServices />
+      </Suspense>
+      <AboutValues />
+      <AboutSteps />
     </div>
   );
-};
-
-export default Home;
+}

@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import { NavbarBrand } from "./02-brand/navbar-brand";
+import { NavbarNav } from "./03-navigation/navbar-nav";
+import { NavbarSearch } from "./04-search/navbar-search";
+import { NavbarActions } from "./05-actions/navbar-actions";
+import { NavbarUser } from "./06-user/navbar-user";
 import {
-  NavbarActions,
-  NavbarBrand,
   NavbarMobileDrawer,
   NavbarMobileToggle,
-  NavbarNav,
-  NavbarSearch,
-  NavbarUser,
-} from "./components";
+} from "./07-mobile/navbar-mobile";
 import type { NavbarConfig, NavItem } from "./navbar-data";
 
 interface NavbarProps {

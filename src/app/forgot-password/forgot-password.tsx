@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { type FormEvent, useState } from "react";
 import { AuthBackButton, AuthImageBanner } from "@/components/auth";
+import { toast } from "@/components/ui/toast";
 import { authClient } from "@/lib/auth-client";
 
 export function ForgotPassword() {
@@ -53,6 +54,11 @@ export function ForgotPassword() {
 
       setIsSubmitted(true);
       setIsLoading(false);
+      toast.add({
+        title: "Verification link sent",
+        description: `Check ${email} for your password reset link.`,
+        type: "success",
+      });
     } catch (err: unknown) {
       const message =
         err instanceof Error ? err.message : "An unexpected error occurred.";
@@ -65,8 +71,14 @@ export function ForgotPassword() {
     e.preventDefault();
     setErrorMessage(null);
 
-    if (newPassword.length < 8) {
-      setErrorMessage("Password must be at least 8 characters long.");
+    if (newPassword.length < 6) {
+      setErrorMessage("Password must be at least 6 characters long.");
+      return;
+    }
+    if (!/[A-Z]/.test(newPassword) || !/[a-z]/.test(newPassword)) {
+      setErrorMessage(
+        "Password must include at least one uppercase and one lowercase letter.",
+      );
       return;
     }
 
@@ -98,6 +110,11 @@ export function ForgotPassword() {
 
       setIsResetSuccess(true);
       setIsLoading(false);
+      toast.add({
+        title: "Password updated",
+        description: "You can now sign in with your new password.",
+        type: "success",
+      });
       setTimeout(() => {
         router.push("/login");
       }, 2000);
@@ -128,7 +145,7 @@ export function ForgotPassword() {
             // Phase 2: User arrived with reset token
             <div>
               <div className="space-y-2">
-                <h1 className="text-3xl font-serif font-bold tracking-tight text-foreground">
+                <h1 className="text-3xl font-bold tracking-tight text-foreground">
                   Set New Password
                 </h1>
                 <p className="text-sm text-muted-foreground">
@@ -231,7 +248,7 @@ export function ForgotPassword() {
               </div>
 
               <div className="space-y-2">
-                <h2 className="text-2xl font-serif font-bold text-foreground">
+                <h2 className="text-2xl font-bold text-foreground">
                   Verification Link Sent
                 </h2>
                 <p className="text-sm text-muted-foreground max-w-md mx-auto">
@@ -261,7 +278,7 @@ export function ForgotPassword() {
             // Phase 1A: Email input form
             <div>
               <div className="space-y-2">
-                <h1 className="text-3xl font-serif font-bold tracking-tight text-foreground">
+                <h1 className="text-3xl font-bold tracking-tight text-foreground">
                   Forgot Password
                 </h1>
                 <p className="text-sm text-muted-foreground">

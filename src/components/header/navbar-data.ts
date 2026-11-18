@@ -96,7 +96,7 @@ export const navbarConfig: NavbarConfig = {
   ],
   navItemsUser: [
     ...commonNavStart,
-    { name: "Saved", href: "/saved", badge: "3", icon: "heart" },
+    { name: "Saved", href: "/saved", icon: "heart" },
     { name: "Bookings", href: "/bookings", icon: "calendar" },
   ],
   navItemsVendor: [

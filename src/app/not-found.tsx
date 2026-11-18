@@ -25,7 +25,7 @@ export default function NotFound() {
         {/* Large 404 Headline with subtle romantic badge */}
         <div className="relative inline-block">
           <span
-            className="text-8xl sm:text-9xl  font-black tracking-tighter text-primary/15 dark:text-primary/25 select-none"
+            className="text-8xl sm:text-9xl font-black tracking-tighter text-primary/15 dark:text-primary/25 select-none"
             aria-hidden="true"
           >
             404

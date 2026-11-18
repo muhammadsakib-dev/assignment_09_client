@@ -10,18 +10,24 @@ import {
   AuthImageBanner,
   AuthSocialButton,
 } from "@/components/auth";
+import { toast } from "@/components/ui/toast";
 import { authClient } from "@/lib/auth-client";
 
 export function Login() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
+  const explicitCallback = searchParams.get("callbackUrl");
+  const blockedParam = searchParams.get("error") === "blocked";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(
+    blockedParam
+      ? "Your account has been blocked by an administrator. Please contact support."
+      : null,
+  );
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,30 +38,66 @@ export function Login() {
       const response = await authClient.signIn.email({
         email: email.trim(),
         password,
-        callbackURL: callbackUrl,
       });
 
       if (response.error) {
-        setErrorMessage(
-          response.error.message || "Invalid credentials. Please try again.",
-        );
+        const msg =
+          response.error.message || "Invalid credentials. Please try again.";
+        setErrorMessage(msg);
+        toast.add({ title: "Sign in failed", description: msg, type: "error" });
         setIsLoading(false);
         return;
       }
 
-      router.push(callbackUrl);
+      // Fetch live session to check blocked status & route by role per spec
+      const sessionRes = await authClient.getSession();
+      const signedInUser = sessionRes.data?.user;
+
+      if (signedInUser?.isBlocked) {
+        await authClient.signOut();
+        const blockedMsg =
+          "Your account is currently blocked. Access to protected features is restricted.";
+        setErrorMessage(blockedMsg);
+        toast.add({
+          title: "Account Blocked",
+          description: blockedMsg,
+          type: "error",
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      const role = signedInUser?.role;
+      const roleDestination =
+        role === "admin"
+          ? "/admin"
+          : role === "vendor"
+            ? "/vendor/dashboard"
+            : "/dashboard";
+
+      toast.add({
+        title: "Signed in successfully",
+        description: `Welcome back, ${signedInUser?.name || "User"}!`,
+        type: "success",
+      });
+
+      router.push(explicitCallback || roleDestination);
       router.refresh();
     } catch (err: unknown) {
       const message =
         err instanceof Error ? err.message : "An unexpected error occurred.";
       setErrorMessage(message);
+      toast.add({
+        title: "Sign in error",
+        description: message,
+        type: "error",
+      });
       setIsLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-background">
-      {/* Visual Photo Banner (Left Side on Desktop) */}
       <AuthImageBanner
         title="Welcome Back to WedPlan"
         quote="Every detail of your celebration, curated with elegance and joy."
@@ -63,17 +105,14 @@ export function Login() {
         imageSrc="https://ik.imagekit.io/muhammadsakib/Assignment_09/wedding_01.jpg"
       />
 
-      {/* Form Container (Right Side) */}
       <div className="flex-1 flex flex-col justify-between p-6 sm:p-10 lg:p-12 xl:p-14 w-full min-h-screen">
-        {/* Top Header: Back Button */}
         <div className="max-w-105 mx-auto w-full">
           <AuthBackButton />
         </div>
 
-        {/* Center: Auth Card & Form */}
         <div className="my-auto py-6 w-full max-w-105 mx-auto">
           <div className="space-y-2">
-            <h1 className="text-3xl font-serif font-bold tracking-tight text-foreground">
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">
               Sign In
             </h1>
             <p className="text-sm text-muted-foreground">
@@ -81,17 +120,15 @@ export function Login() {
             </p>
           </div>
 
-          {/* Social Sign In */}
           <div className="mt-8">
             <AuthSocialButton
-              callbackURL={callbackUrl}
+              callbackURL={explicitCallback || "/dashboard"}
               onError={(err) => setErrorMessage(err)}
             />
           </div>
 
           <AuthDivider />
 
-          {/* Error Alert */}
           {errorMessage && (
             <div className="mb-6 p-3.5 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive flex items-center gap-2.5 text-sm">
               <AlertCircle className="w-4 h-4 shrink-0" />
@@ -99,7 +136,6 @@ export function Login() {
             </div>
           )}
 
-          {/* Email / Password Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
               <label
@@ -162,7 +198,6 @@ export function Login() {
               </div>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={isLoading}
@@ -173,7 +208,6 @@ export function Login() {
             </button>
           </form>
 
-          {/* Footer Navigation */}
           <div className="mt-8 text-center text-sm text-muted-foreground">
             Don&apos;t have an account?{" "}
             <Link
@@ -185,7 +219,6 @@ export function Login() {
           </div>
         </div>
 
-        {/* Bottom Terms Notice */}
         <div className="pt-6 text-center text-xs text-muted-foreground max-w-105 mx-auto w-full">
           By signing in, you agree to WedPlan&apos;s Terms of Service and
           Privacy Policy.
