@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
-import type { NavbarConfig, NavItem } from "@/types/getUI_types";
 import {
   NavbarActions,
   NavbarBrand,
@@ -12,6 +11,7 @@ import {
   NavbarSearch,
   NavbarUser,
 } from "./components";
+import type { NavbarConfig, NavItem } from "./navbar-data";
 
 interface NavbarProps {
   navbar: NavbarConfig;
@@ -25,7 +25,6 @@ export function Navbar({ navbar }: NavbarProps) {
   const {
     brand,
     navItems,
-    navItemsLoggedIn,
     navItemsUser,
     navItemsVendor,
     navItemsAdmin,
@@ -33,14 +32,14 @@ export function Navbar({ navbar }: NavbarProps) {
   } = navbar;
 
   // Map each authenticated role to its navigation list
-  const roleNavMap: Record<string, NavItem[] | undefined> = {
-    user: navItemsUser || navItemsLoggedIn,
+  const roleNavMap: Record<string, NavItem[]> = {
+    user: navItemsUser,
     vendor: navItemsVendor,
     admin: navItemsAdmin,
   };
 
   const currentNavItems: NavItem[] = user
-    ? roleNavMap[user.role || "user"] || navItemsUser || navItems
+    ? roleNavMap[user.role || "user"] || navItemsUser
     : navItems;
 
   return (

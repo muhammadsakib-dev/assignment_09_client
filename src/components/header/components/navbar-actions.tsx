@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import type { NavbarAction } from "@/types/getUI_types";
+import type { NavbarAction } from "../navbar-data";
 
 interface NavbarActionsProps {
   actions: NavbarAction[];

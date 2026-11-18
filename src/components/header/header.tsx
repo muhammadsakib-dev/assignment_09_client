@@ -1,11 +1,8 @@
-// V-1
-import getUI from "@/services/read/getUI";
 import { Navbar } from "./navbar";
+import { navbarConfig } from "./navbar-data";
 
-export async function Header() {
-  const uiData = await getUI();
-
-  return <Navbar navbar={uiData.navbar} />;
+export function Header() {
+  return <Navbar navbar={navbarConfig} />;
 }
 
 export default Header;

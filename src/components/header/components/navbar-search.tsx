@@ -1,6 +1,7 @@
 "use client";
 
 import { Search, Sparkles, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { type FormEvent, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +18,7 @@ const POPULAR_SEARCHES = [
 ];
 
 export function NavbarSearch({ className }: NavbarSearchProps) {
+  const router = useRouter();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -61,7 +63,7 @@ export function NavbarSearch({ className }: NavbarSearchProps) {
     const trimmed = query.trim();
     if (trimmed) {
       setIsSearchOpen(false);
-      window.location.href = `/services?search=${encodeURIComponent(trimmed)}`;
+      router.push(`/services?search=${encodeURIComponent(trimmed)}`);
     }
   };
 

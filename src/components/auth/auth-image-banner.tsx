@@ -44,7 +44,7 @@ export function AuthImageBanner({
           className="inline-flex items-center gap-2 text-white/90 hover:text-white transition-opacity"
         >
           <span className="text-2xl font-serif font-bold tracking-tight text-white">
-            Wed<span className="text-[#E07A93]">Plan</span>
+            Wed<span className="text-blush-pink">Plan</span>
           </span>
           <span className="text-xs px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white/90 font-medium">
             Plan • Book • Celebrate ✨

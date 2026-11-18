@@ -8,6 +8,15 @@ import {
   User,
   Users,
 } from "lucide-react";
+import type { NavIconName } from "../navbar-data";
+
+export const NAV_ICONS: Record<NavIconName, LucideIcon> = {
+  heart: Heart,
+  calendar: Calendar,
+  briefcase: Briefcase,
+  shield: Shield,
+  users: Users,
+};
 
 export type UserRole = "user" | "vendor" | "admin";
 

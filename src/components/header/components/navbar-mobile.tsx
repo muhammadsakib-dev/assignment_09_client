@@ -1,31 +1,13 @@
 "use client";
 
-import {
-  Briefcase,
-  Calendar,
-  Heart,
-  LogOut,
-  type LucideIcon,
-  Menu,
-  Shield,
-  Users,
-  X,
-} from "lucide-react";
+import { LogOut, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
-import type { NavbarAction, NavIconName, NavItem } from "@/types/getUI_types";
-import { getRoleMenu } from "./role-menu";
-
-const NAV_ICONS: Record<NavIconName, LucideIcon> = {
-  heart: Heart,
-  calendar: Calendar,
-  briefcase: Briefcase,
-  shield: Shield,
-  users: Users,
-};
+import type { NavbarAction, NavItem } from "../navbar-data";
+import { getRoleMenu, NAV_ICONS } from "./role-menu";
 
 interface NavbarMobileToggleProps {
   isOpen: boolean;

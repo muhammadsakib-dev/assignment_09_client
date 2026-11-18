@@ -1,13 +1,5 @@
 "use client";
 
-import {
-  Briefcase,
-  Calendar,
-  Heart,
-  type LucideIcon,
-  Shield,
-  Users,
-} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -19,15 +11,8 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import type { NavIconName, NavItem } from "@/types/getUI_types";
-
-const NAV_ICONS: Record<NavIconName, LucideIcon> = {
-  heart: Heart,
-  calendar: Calendar,
-  briefcase: Briefcase,
-  shield: Shield,
-  users: Users,
-};
+import type { NavItem } from "../navbar-data";
+import { NAV_ICONS } from "./role-menu";
 
 interface NavbarNavProps {
   navItems: NavItem[];
