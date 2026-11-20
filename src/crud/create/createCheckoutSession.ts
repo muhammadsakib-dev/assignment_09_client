@@ -2,13 +2,14 @@
 
 import { getAuthFetchHeaders } from "@/lib/server-api";
 import type {
+  BillingCycle,
   CheckoutServiceResult,
   CheckoutSessionData,
 } from "../checkout.types";
 
-export async function createCheckoutSession(): Promise<
-  CheckoutServiceResult<CheckoutSessionData>
-> {
+export async function createCheckoutSession(
+  billingCycle: BillingCycle = "monthly",
+): Promise<CheckoutServiceResult<CheckoutSessionData>> {
   const baseUrl = process.env.API_BASE_URL;
   if (!baseUrl) {
     return { success: false, message: "Backend API URL is not configured." };
@@ -19,6 +20,7 @@ export async function createCheckoutSession(): Promise<
     const res = await fetch(`${baseUrl}/checkout/create-session`, {
       method: "POST",
       headers: authHeaders,
+      body: JSON.stringify({ billingCycle }),
       cache: "no-store",
     });
 

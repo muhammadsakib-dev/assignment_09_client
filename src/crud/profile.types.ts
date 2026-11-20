@@ -8,6 +8,7 @@ export interface UserProfileRecord {
   location: string;
   businessName: string;
   subscriptionPlan: "free" | "premium";
+  subscriptionExpiresAt?: string | null;
 }
 
 export interface UpdateProfileInput {
