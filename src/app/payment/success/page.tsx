@@ -50,8 +50,7 @@ async function PaymentSuccessContent({
           </h2>
           <p className="text-sm text-muted-foreground">
             No Stripe Checkout session reference was found in this URL. Premium
-            access is activated exclusively after a verified Stripe webhook
-            confirmation.
+            access is activated upon verified Stripe checkout confirmation.
           </p>
         </div>
         <Link
@@ -141,8 +140,8 @@ async function PaymentSuccessContent({
               <span className="font-semibold text-foreground">
                 {vendorName}
               </span>
-              . Your Stripe payment has been verified by our webhook and
-              unlimited service listings are now active.
+              . Your Stripe payment has been confirmed and unlimited service
+              listings are now active.
             </>
           ) : (
             <>

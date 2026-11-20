@@ -176,8 +176,7 @@ export function VendorSubscriptionPlans({
               <p className="flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground">
                 <ShieldCheck className="w-3.5 h-3.5 text-primary" />
                 <span>
-                  Vendor-only Stripe Checkout — activated strictly via verified
-                  webhook.
+                  Vendor-only Stripe Checkout — encrypted & verified instantly.
                 </span>
               </p>
             </div>
