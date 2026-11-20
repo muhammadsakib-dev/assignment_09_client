@@ -4,8 +4,8 @@ import { AlertCircle, Check, Loader2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "@/components/ui/toast";
-import type { BookingAction, BookingStatus } from "@/services/bookings.types";
-import { updateBookingStatus } from "@/services/update/updateBookingStatus";
+import type { BookingAction, BookingStatus } from "@/crud/bookings.types";
+import { updateBookingStatus } from "@/crud/update/updateBookingStatus";
 
 interface BookingActionsProps {
   bookingId: string;

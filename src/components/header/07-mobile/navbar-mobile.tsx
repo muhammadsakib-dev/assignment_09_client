@@ -3,6 +3,7 @@
 import { LogOut, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { ThemeToggle } from "@/components/theme";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
@@ -209,6 +210,14 @@ export function NavbarMobileDrawer({
             })}
           </div>
         )}
+      </div>
+
+      {/* Theme / Appearance Selector */}
+      <div className="mt-4 pt-4 border-t border-border space-y-2">
+        <p className="px-1 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+          Appearance
+        </p>
+        <ThemeToggle variant="segmented" />
       </div>
 
       {/* Footer Action: Logout (if logged in) or Sign In/Sign Up (if logged out) */}

@@ -4,12 +4,12 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { DashboardShell } from "@/components/dashboard";
 import { SavedServicesList } from "@/components/saved";
+import { getSavedServices } from "@/crud/read/getSavedServices";
 import { auth } from "@/lib/auth";
-import { getSavedServices } from "@/services/read/getSavedServices";
 import { ServicesSkeleton } from "@/suspense/services-skeleton";
 
 export const metadata: Metadata = {
-  title: "Saved Services | WedPlan",
+  title: "Saved Services | Customer Portal | WedPlan",
   description:
     "View and manage your shortlisted wedding venues, photographers, florists, and caterers.",
 };
@@ -25,7 +25,7 @@ async function SavedContent() {
   );
 }
 
-export default async function SavedPage() {
+export default async function CustomerSavedServicesPage() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });

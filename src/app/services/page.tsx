@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { Suspense } from "react";
 import { ServicesExplorer } from "@/components/services";
+import { getPublicServices } from "@/crud/read/getPublicServices";
+import { getSavedServices } from "@/crud/read/getSavedServices";
 import { auth } from "@/lib/auth";
-import { getPublicServices } from "@/services/read/getPublicServices";
-import { getSavedServices } from "@/services/read/getSavedServices";
 import { ServicesSkeleton } from "@/suspense/services-skeleton";
 
 export const metadata: Metadata = {

@@ -1,5 +1,5 @@
+import type { BookingStatus } from "@/crud/bookings.types";
 import { cn } from "@/lib/utils";
-import type { BookingStatus } from "@/services/bookings.types";
 
 interface BookingStatusBadgeProps {
   status: BookingStatus;
@@ -11,7 +11,7 @@ const STATUS_STYLES: Record<BookingStatus, { label: string; classes: string }> =
     pending: {
       label: "Pending",
       classes:
-        "bg-champagne/60 text-foreground border-border dark:bg-muted dark:text-foreground",
+        "bg-champagne/60 text-foreground border-border dark:bg-champagne/15 dark:text-champagne dark:border-champagne/25",
     },
     booked: {
       label: "Booked",

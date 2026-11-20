@@ -1,7 +1,7 @@
 import { ArrowRight, Crown, MapPin, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import type { VendorServiceRecord } from "@/services/vendor-services.types";
+import type { VendorServiceRecord } from "@/crud/vendor-services.types";
 import { SaveServiceButton } from "./save-service-button";
 
 interface ServiceCardProps {

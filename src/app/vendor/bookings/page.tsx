@@ -4,12 +4,12 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { BookingsList } from "@/components/bookings";
 import { DashboardShell } from "@/components/dashboard";
+import { getBookings } from "@/crud/read/getBookings";
 import { auth } from "@/lib/auth";
-import { getBookings } from "@/services/read/getBookings";
 import { BookingsSkeleton } from "@/suspense/bookings-skeleton";
 
 export const metadata: Metadata = {
-  title: "Vendor Booking Requests | WedPlan",
+  title: "Booking Requests | Vendor Portal | WedPlan",
   description:
     "Review incoming customer booking requests and approve or reject bookings for your wedding services.",
 };
@@ -53,7 +53,7 @@ export default async function VendorBookingsPage() {
         image: session.user.image,
         role: "vendor",
       }}
-      badge="Vendor Portal"
+      badge="Booking Requests"
       title="Incoming Booking Requests"
       description="Approve pending wedding inquiries to mark them as Booked, or reject unavailable dates."
     >

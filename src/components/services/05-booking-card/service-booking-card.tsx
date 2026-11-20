@@ -12,7 +12,7 @@ import {
 import Link from "next/link";
 import { type FormEvent, useState } from "react";
 import { toast } from "@/components/ui/toast";
-import { createBooking } from "@/services/create/createBooking";
+import { createBooking } from "@/crud/create/createBooking";
 
 interface ServiceBookingCardProps {
   serviceId: string;
@@ -48,11 +48,12 @@ export function ServiceBookingCard({
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const isAdmin = userRole === "admin";
+  const isVendor = userRole === "vendor";
   const isOwnService =
-    userRole === "vendor" &&
+    isVendor &&
     (userId === vendorId ||
       userEmail.trim().toLowerCase() === vendorEmail.trim().toLowerCase());
-  const isBookingBlocked = isAdmin || isOwnService;
+  const isBookingBlocked = isAdmin || isVendor;
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -139,6 +140,19 @@ export function ServiceBookingCard({
             <p className="text-xs leading-relaxed">
               Vendors cannot book their own services. Manage incoming requests
               from your Vendor Dashboard.
+            </p>
+          </div>
+        </div>
+      ) : isVendor ? (
+        <div className="rounded-2xl border border-border bg-muted/50 p-4 flex items-start gap-3 text-sm text-muted-foreground">
+          <AlertCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <p className="font-semibold text-foreground">
+              Vendor Account Notice
+            </p>
+            <p className="text-xs leading-relaxed">
+              Booking requests are available for customer accounts only. Sign in
+              with a customer account to submit a booking request.
             </p>
           </div>
         </div>

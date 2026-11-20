@@ -12,9 +12,11 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 import { ServiceBookingCard, ServiceGallery } from "@/components/services";
+import { getPublicServiceById } from "@/crud/read/getPublicServiceById";
 import { auth } from "@/lib/auth";
-import { getPublicServiceById } from "@/services/read/getPublicServiceById";
+import { ServicesSkeleton } from "@/suspense/services-skeleton";
 
 interface ServiceDetailsPageProps {
   params: Promise<{ id: string }>;
@@ -38,24 +40,17 @@ export async function generateMetadata({
   };
 }
 
-export default async function ServiceDetailsPage({
-  params,
-}: ServiceDetailsPageProps) {
-  const { id } = await params;
-
-  // Enforce server-side authentication before viewing service details & booking
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session?.user) {
-    redirect(`/login?callbackUrl=${encodeURIComponent(`/services/${id}`)}`);
-  }
-
-  if (session.user.isBlocked) {
-    redirect("/login?error=blocked");
-  }
-
+async function ServiceDetailsContent({
+  id,
+  userRole,
+  userId,
+  userEmail,
+}: {
+  id: string;
+  userRole: string;
+  userId: string;
+  userEmail: string;
+}) {
   const result = await getPublicServiceById(id);
   const service = result.data;
 
@@ -87,9 +82,6 @@ export default async function ServiceDetailsPage({
       </section>
     );
   }
-
-  const userRole =
-    typeof session.user.role === "string" ? session.user.role : "user";
 
   return (
     <section className="bg-background py-8 sm:py-12">
@@ -205,12 +197,51 @@ export default async function ServiceDetailsPage({
               vendorName={service.vendorName}
               vendorEmail={service.vendorEmail}
               userRole={userRole}
-              userId={session.user.id}
-              userEmail={session.user.email}
+              userId={userId}
+              userEmail={userEmail}
             />
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+export default async function ServiceDetailsPage({
+  params,
+}: ServiceDetailsPageProps) {
+  const { id } = await params;
+
+  // Enforce server-side authentication before viewing service details & booking
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session?.user) {
+    redirect(`/login?callbackUrl=${encodeURIComponent(`/services/${id}`)}`);
+  }
+
+  if (session.user.isBlocked) {
+    redirect("/login?error=blocked");
+  }
+
+  const userRole =
+    typeof session.user.role === "string" ? session.user.role : "user";
+
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+          <ServicesSkeleton />
+        </div>
+      }
+    >
+      <ServiceDetailsContent
+        id={id}
+        userRole={userRole}
+        userId={session.user.id}
+        userEmail={session.user.email}
+      />
+    </Suspense>
   );
 }

@@ -12,7 +12,7 @@ export function NavbarBrand({ logoUrl, className }: NavbarBrandProps) {
     <Link
       href="/"
       className={cn(
-        "flex items-center shrink-0 group transition-transform hover:opacity-95",
+        "flex items-center shrink-0 group transition-all hover:opacity-95 dark:bg-foreground/95 dark:px-2.5 dark:py-0.5 dark:rounded-full",
         className,
       )}
       aria-label="WedPlan Home"

@@ -9,6 +9,7 @@ export type NavIconName =
   | "heart"
   | "calendar"
   | "briefcase"
+  | "crown"
   | "shield"
   | "users";
 
@@ -91,22 +92,22 @@ export const navbarConfig: NavbarConfig = {
   navItems: [
     ...commonNavStart,
     { name: "For Vendors", href: "/for-vendors" },
-    { name: "Pricing", href: "/pricing" },
     { name: "About", href: "/about" },
   ],
   navItemsUser: [
     ...commonNavStart,
     { name: "Saved", href: "/saved", icon: "heart" },
-    { name: "Bookings", href: "/bookings", icon: "calendar" },
+    { name: "My Bookings", href: "/bookings", icon: "calendar" },
   ],
   navItemsVendor: [
     ...commonNavStart,
     { name: "My Services", href: "/vendor/services", icon: "briefcase" },
-    { name: "Bookings", href: "/vendor/bookings", icon: "calendar" },
+    { name: "Booking Requests", href: "/vendor/bookings", icon: "calendar" },
+    // { name: "Subscription", href: "/vendor/subscription", icon: "crown" },
   ],
   navItemsAdmin: [
     ...commonNavStart,
-    { name: "Users", href: "/admin/users", icon: "users" },
+    { name: "Manage Users", href: "/admin/users", icon: "users" },
     { name: "Admin Panel", href: "/admin", icon: "shield" },
   ],
   actions: [

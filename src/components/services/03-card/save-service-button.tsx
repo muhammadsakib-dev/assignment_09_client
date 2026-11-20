@@ -4,10 +4,10 @@ import { Heart, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "@/components/ui/toast";
+import { saveService } from "@/crud/create/saveService";
+import { removeSavedService } from "@/crud/delete/removeSavedService";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
-import { saveService } from "@/services/create/saveService";
-import { removeSavedService } from "@/services/delete/removeSavedService";
 
 interface SaveServiceButtonProps {
   serviceId: string;

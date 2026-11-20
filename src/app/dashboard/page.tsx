@@ -13,13 +13,13 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { BookingsList } from "@/components/bookings";
 import { DashboardShell, StatCard } from "@/components/dashboard";
+import { getBookings } from "@/crud/read/getBookings";
+import { getSavedServices } from "@/crud/read/getSavedServices";
 import { auth } from "@/lib/auth";
-import { getBookings } from "@/services/read/getBookings";
-import { getSavedServices } from "@/services/read/getSavedServices";
 import { DashboardSkeleton } from "@/suspense/dashboard-skeleton";
 
 export const metadata: Metadata = {
-  title: "Customer Dashboard | WedPlan",
+  title: "Customer Overview | Customer Portal | WedPlan",
   description:
     "Overview of your wedding booking requests, confirmed vendors, and saved services.",
 };

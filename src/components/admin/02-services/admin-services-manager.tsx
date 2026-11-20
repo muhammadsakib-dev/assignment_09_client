@@ -15,13 +15,13 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { SERVICE_CATEGORIES } from "@/components/services/services-data";
 import { toast } from "@/components/ui/toast";
-import { cn } from "@/lib/utils";
-import { deleteAdminService } from "@/services/delete/deleteAdminService";
-import { updateAdminServiceStatus } from "@/services/update/adminActions";
+import { deleteAdminService } from "@/crud/delete/deleteAdminService";
+import { updateAdminServiceStatus } from "@/crud/update/adminActions";
 import type {
   VendorServiceRecord,
   VendorServiceStatus,
-} from "@/services/vendor-services.types";
+} from "@/crud/vendor-services.types";
+import { cn } from "@/lib/utils";
 
 interface AdminServicesManagerProps {
   services: VendorServiceRecord[];
@@ -29,7 +29,8 @@ interface AdminServicesManagerProps {
 }
 
 const STATUS_BADGE: Record<VendorServiceStatus, string> = {
-  pending: "bg-champagne/60 text-foreground border-border",
+  pending:
+    "bg-champagne/60 text-foreground border-border dark:bg-champagne/15 dark:text-champagne dark:border-champagne/25",
   approved: "bg-primary text-primary-foreground border-primary",
   rejected: "bg-destructive/10 text-destructive border-destructive/25",
 };

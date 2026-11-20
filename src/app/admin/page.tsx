@@ -13,12 +13,12 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { DashboardShell, StatCard } from "@/components/dashboard";
+import { getAdminOverview } from "@/crud/read/getAdminData";
 import { auth } from "@/lib/auth";
-import { getAdminOverview } from "@/services/read/getAdminData";
 import { DashboardSkeleton } from "@/suspense/dashboard-skeleton";
 
 export const metadata: Metadata = {
-  title: "Admin Dashboard | WedPlan",
+  title: "Platform Overview | Admin Panel | WedPlan",
   description:
     "Platform overview of users, vendors, customers, services, pending approvals, and transactions.",
 };

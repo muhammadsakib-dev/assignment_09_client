@@ -11,8 +11,8 @@ import {
 import { MotionConfig, motion } from "motion/react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import type { VendorServiceRecord } from "@/crud/vendor-services.types";
 import { cn } from "@/lib/utils";
-import type { VendorServiceRecord } from "@/services/vendor-services.types";
 import { ServiceCard } from "./03-card/service-card";
 import { SERVICE_CATEGORIES, SERVICE_LOCATIONS } from "./services-data";
 

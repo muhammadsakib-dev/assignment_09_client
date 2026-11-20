@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import type { BookingRecord } from "@/services/bookings.types";
+import type { BookingRecord } from "@/crud/bookings.types";
 import { BookingStatusBadge } from "./01-status/booking-status-badge";
 import { BookingActions } from "./02-actions/booking-actions";
 

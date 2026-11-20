@@ -21,6 +21,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { ThemeToggle } from "@/components/theme";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
@@ -33,24 +34,28 @@ interface SidebarLink {
 
 const ROLE_SIDEBAR_LINKS: Record<"user" | "vendor" | "admin", SidebarLink[]> = {
   user: [
-    { label: "Overview", href: "/dashboard", icon: LayoutGrid },
+    { label: "Customer Overview", href: "/dashboard", icon: LayoutGrid },
     { label: "My Bookings", href: "/bookings", icon: Calendar },
     { label: "Saved Services", href: "/saved", icon: Heart },
     { label: "Profile Settings", href: "/profile", icon: User },
   ],
   vendor: [
-    { label: "Overview", href: "/vendor/dashboard", icon: LayoutGrid },
+    { label: "Vendor Overview", href: "/vendor/dashboard", icon: LayoutGrid },
     { label: "My Services", href: "/vendor/services", icon: Briefcase },
     { label: "Add Service", href: "/vendor/add-service", icon: PlusCircle },
     { label: "Booking Requests", href: "/vendor/bookings", icon: Calendar },
-    { label: "Subscription", href: "/vendor/subscription", icon: Crown },
+    { label: "Subscription Plans", href: "/vendor/subscription", icon: Crown },
     { label: "Profile Settings", href: "/profile", icon: User },
   ],
   admin: [
-    { label: "Overview", href: "/admin", icon: Shield },
+    { label: "Platform Overview", href: "/admin", icon: Shield },
     { label: "Manage Users", href: "/admin/users", icon: Users },
     { label: "Manage Services", href: "/admin/services", icon: Briefcase },
-    { label: "Transactions", href: "/admin/transactions", icon: CreditCard },
+    {
+      label: "Platform Transactions",
+      href: "/admin/transactions",
+      icon: CreditCard,
+    },
     { label: "Profile Settings", href: "/profile", icon: User },
   ],
 };
@@ -104,7 +109,7 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
         <div className="flex items-center justify-between gap-2 pb-4 border-b border-border/70">
           <Link
             href="/"
-            className="inline-flex items-center hover:opacity-90 transition-opacity"
+            className="inline-flex items-center hover:opacity-90 transition-opacity dark:bg-foreground/95 dark:px-2.5 dark:py-0.5 dark:rounded-2xl"
             aria-label="WedPlan Home"
           >
             <Image
@@ -168,7 +173,14 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
       </div>
 
       {/* Footer Actions */}
-      <div className="pt-4 border-t border-border/70 space-y-2">
+      <div className="pt-4 border-t border-border/70 space-y-2.5">
+        <div className="space-y-1.5">
+          <p className="px-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Appearance
+          </p>
+          <ThemeToggle variant="segmented" />
+        </div>
+
         <Link
           href="/"
           className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/70 transition-colors"
@@ -209,13 +221,16 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
           <span className="text-sm font-bold text-foreground">{roleLabel}</span>
         </div>
 
-        <Link
-          href="/"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Website</span>
-        </Link>
+        <div className="flex items-center gap-2.5">
+          <ThemeToggle variant="icon" />
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Website</span>
+          </Link>
+        </div>
       </div>
 
       {/* Mobile Slide-Over Drawer */}

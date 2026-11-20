@@ -18,11 +18,12 @@ import {
   AuthImageBanner,
   AuthSocialButton,
 } from "@/components/auth";
+import { ThemeToggle } from "@/components/theme";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "@/components/ui/toast";
+import { uploadImageToImgBB } from "@/crud/create/uploadImage";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
-import { uploadImageToImgBB } from "@/services/create/uploadImage";
 
 export function SignUp() {
   const router = useRouter();
@@ -169,8 +170,9 @@ export function SignUp() {
 
       {/* Form Container */}
       <div className="flex-1 flex flex-col justify-between p-6 sm:p-10 lg:p-12 xl:p-14 w-full min-h-screen">
-        <div className="max-w-105 mx-auto w-full">
+        <div className="max-w-105 mx-auto w-full flex items-center justify-between gap-2">
           <AuthBackButton />
+          <ThemeToggle variant="icon" />
         </div>
 
         <div className="my-auto py-6 w-full max-w-105 mx-auto">

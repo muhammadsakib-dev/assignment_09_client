@@ -15,9 +15,9 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "@/components/ui/toast";
+import type { AdminUserRecord } from "@/crud/admin.types";
+import { toggleAdminUserBlock } from "@/crud/update/adminActions";
 import { cn } from "@/lib/utils";
-import type { AdminUserRecord } from "@/services/admin.types";
-import { toggleAdminUserBlock } from "@/services/update/adminActions";
 
 interface AdminUsersManagerProps {
   users: AdminUserRecord[];

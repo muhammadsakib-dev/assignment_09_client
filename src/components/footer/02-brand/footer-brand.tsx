@@ -79,7 +79,7 @@ export function FooterBrand() {
     <div className="space-y-4">
       <Link
         href="/"
-        className="inline-flex items-center hover:opacity-90 transition-opacity"
+        className="inline-flex items-center hover:opacity-90 transition-opacity dark:bg-foreground/95 dark:px-3 dark:py-0.5 dark:rounded-2xl"
         aria-label="WedPlan Home"
       >
         <Image

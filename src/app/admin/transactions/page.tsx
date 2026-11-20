@@ -4,12 +4,12 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { DashboardShell } from "@/components/dashboard";
+import { getAdminTransactions } from "@/crud/read/getAdminData";
 import { auth } from "@/lib/auth";
-import { getAdminTransactions } from "@/services/read/getAdminData";
 import { DashboardSkeleton } from "@/suspense/dashboard-skeleton";
 
 export const metadata: Metadata = {
-  title: "Transactions | Admin | WedPlan",
+  title: "Platform Transactions | Admin Panel | WedPlan",
   description: "Read-only audit log of vendor subscription transactions.",
 };
 
@@ -37,7 +37,7 @@ async function AdminTransactionsContent() {
         </h2>
         <p className="text-sm text-muted-foreground max-w-md mx-auto">
           Verified Stripe subscription transactions will appear here in
-          read-only format once payment integration is enabled.
+          read-only format as soon as vendors upgrade to Premium.
         </p>
       </div>
     );

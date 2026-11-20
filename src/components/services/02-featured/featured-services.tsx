@@ -1,9 +1,9 @@
 import { ArrowRight, Sparkles } from "lucide-react";
 import { headers } from "next/headers";
 import Link from "next/link";
+import { getPublicServices } from "@/crud/read/getPublicServices";
+import { getSavedServices } from "@/crud/read/getSavedServices";
 import { auth } from "@/lib/auth";
-import { getPublicServices } from "@/services/read/getPublicServices";
-import { getSavedServices } from "@/services/read/getSavedServices";
 import { ServiceCard } from "../03-card/service-card";
 
 export async function FeaturedServices() {

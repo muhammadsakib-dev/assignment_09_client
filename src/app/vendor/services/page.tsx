@@ -4,9 +4,9 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { DashboardShell } from "@/components/dashboard";
 import { VendorServicesManager } from "@/components/vendor";
+import { getProfile } from "@/crud/read/getProfile";
+import { getVendorServices } from "@/crud/read/getVendorServices";
 import { auth } from "@/lib/auth";
-import { getProfile } from "@/services/read/getProfile";
-import { getVendorServices } from "@/services/read/getVendorServices";
 import { ServicesSkeleton } from "@/suspense/services-skeleton";
 
 export const metadata: Metadata = {

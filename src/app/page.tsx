@@ -5,13 +5,15 @@ import { Hero } from "@/components/home";
 import { FeaturedServices, ServiceCategories } from "@/components/services";
 import { ServicesSkeleton } from "@/suspense/services-skeleton";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "WedPlan | Plan, Book & Celebrate Your Dream Wedding",
   description:
     "Discover verified wedding venues, photographers, florists, caterers, and stylists on WedPlan.",
 };
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div className="flex flex-col">
       <Hero />

@@ -4,12 +4,12 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { BookingsList } from "@/components/bookings";
 import { DashboardShell } from "@/components/dashboard";
+import { getBookings } from "@/crud/read/getBookings";
 import { auth } from "@/lib/auth";
-import { getBookings } from "@/services/read/getBookings";
 import { BookingsSkeleton } from "@/suspense/bookings-skeleton";
 
 export const metadata: Metadata = {
-  title: "My Bookings | WedPlan",
+  title: "My Bookings | Customer Portal | WedPlan",
   description:
     "Track your wedding service booking requests, status updates, and vendor confirmations.",
 };
@@ -26,7 +26,7 @@ async function CustomerBookingsContent() {
   );
 }
 
-export default async function BookingsPage() {
+export default async function CustomerBookingsPage() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });

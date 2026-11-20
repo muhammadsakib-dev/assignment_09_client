@@ -11,9 +11,9 @@ import { useRouter } from "next/navigation";
 import { type ChangeEvent, type FormEvent, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "@/components/ui/toast";
-import { uploadImageToImgBB } from "@/services/create/uploadImage";
-import type { UserProfileRecord } from "@/services/profile.types";
-import { updateProfile } from "@/services/update/updateProfile";
+import { uploadImageToImgBB } from "@/crud/create/uploadImage";
+import type { UserProfileRecord } from "@/crud/profile.types";
+import { updateProfile } from "@/crud/update/updateProfile";
 
 interface ProfileFormProps {
   profile: UserProfileRecord;
@@ -144,7 +144,9 @@ export function ProfileForm({ profile }: ProfileFormProps) {
           <p className="inline-flex items-center gap-1.5 text-xs text-muted-foreground pt-1">
             <ShieldCheck className="w-3.5 h-3.5 text-primary" />
             <span>
-              Account role and subscription status are server-protected.
+              {profile.role === "vendor"
+                ? "Account role and subscription status are server-protected."
+                : "Account role is server-protected."}
             </span>
           </p>
         </div>

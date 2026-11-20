@@ -12,8 +12,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { removeSavedService } from "@/services/delete/removeSavedService";
-import type { SavedServiceRecord } from "@/services/saved.types";
+import { removeSavedService } from "@/crud/delete/removeSavedService";
+import type { SavedServiceRecord } from "@/crud/saved.types";
 
 interface SavedServicesListProps {
   items: SavedServiceRecord[];

@@ -13,14 +13,14 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { BookingsList } from "@/components/bookings";
 import { DashboardShell, StatCard } from "@/components/dashboard";
+import { getBookings } from "@/crud/read/getBookings";
+import { getProfile } from "@/crud/read/getProfile";
+import { getVendorServices } from "@/crud/read/getVendorServices";
 import { auth } from "@/lib/auth";
-import { getBookings } from "@/services/read/getBookings";
-import { getProfile } from "@/services/read/getProfile";
-import { getVendorServices } from "@/services/read/getVendorServices";
 import { DashboardSkeleton } from "@/suspense/dashboard-skeleton";
 
 export const metadata: Metadata = {
-  title: "Vendor Dashboard | WedPlan",
+  title: "Vendor Overview | Vendor Portal | WedPlan",
   description:
     "Overview of your wedding services, incoming customer booking requests, and subscription plan.",
 };

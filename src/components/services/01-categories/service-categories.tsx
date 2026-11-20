@@ -9,7 +9,7 @@ import {
   Utensils,
 } from "lucide-react";
 import Link from "next/link";
-import { getPublicServices } from "@/services/read/getPublicServices";
+import { getPublicServices } from "@/crud/read/getPublicServices";
 import { type CategoryIconName, SERVICE_CATEGORIES } from "../services-data";
 
 const CATEGORY_ICONS: Record<CategoryIconName, LucideIcon> = {

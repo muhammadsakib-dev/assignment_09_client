@@ -17,6 +17,7 @@ export const NAV_ICONS: Record<NavIconName, LucideIcon> = {
   heart: Heart,
   calendar: Calendar,
   briefcase: Briefcase,
+  crown: Crown,
   shield: Shield,
   users: Users,
 };
@@ -39,12 +40,12 @@ export interface RoleMenuConfig {
 const ROLE_MENUS: Record<UserRole, RoleMenuConfig> = {
   user: {
     badge: null,
-    sectionTitle: "My Account",
+    sectionTitle: "Customer Portal",
     items: [
-      { label: "Dashboard", href: "/dashboard", icon: LayoutGrid },
-      { label: "Profile Settings", href: "/profile", icon: User },
+      { label: "Customer Dashboard", href: "/dashboard", icon: LayoutGrid },
       { label: "My Bookings", href: "/bookings", icon: Calendar },
       { label: "Saved Services", href: "/saved", icon: Heart },
+      { label: "Profile Settings", href: "/profile", icon: User },
     ],
   },
   vendor: {
@@ -59,18 +60,26 @@ const ROLE_MENUS: Record<UserRole, RoleMenuConfig> = {
       { label: "My Services", href: "/vendor/services", icon: Briefcase },
       { label: "Add Service", href: "/vendor/add-service", icon: PlusCircle },
       { label: "Booking Requests", href: "/vendor/bookings", icon: Calendar },
-      { label: "Subscription", href: "/vendor/subscription", icon: Crown },
+      {
+        label: "Subscription Plans",
+        href: "/vendor/subscription",
+        icon: Crown,
+      },
       { label: "Profile Settings", href: "/profile", icon: User },
     ],
   },
   admin: {
     badge: "Admin",
-    sectionTitle: "Admin Controls",
+    sectionTitle: "Admin Panel",
     items: [
       { label: "Admin Dashboard", href: "/admin", icon: Shield },
       { label: "Manage Users", href: "/admin/users", icon: Users },
       { label: "Manage Services", href: "/admin/services", icon: Briefcase },
-      { label: "Transactions", href: "/admin/transactions", icon: CreditCard },
+      {
+        label: "Platform Transactions",
+        href: "/admin/transactions",
+        icon: CreditCard,
+      },
       { label: "Profile Settings", href: "/profile", icon: User },
     ],
   },

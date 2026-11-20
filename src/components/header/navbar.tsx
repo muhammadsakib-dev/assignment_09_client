@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ThemeToggle } from "@/components/theme";
 import { authClient } from "@/lib/auth-client";
 import { NavbarBrand } from "./02-brand/navbar-brand";
 import { NavbarNav } from "./03-navigation/navbar-nav";
@@ -62,10 +63,13 @@ export function Navbar({ navbar }: NavbarProps) {
         {/* Center Desktop Navigation (Hidden on Mobile/Tablet) */}
         <NavbarNav navItems={currentNavItems} />
 
-        {/* Right Section: Search & Actions / User Profile */}
+        {/* Right Section: Search, Theme Toggle & Actions / User Profile */}
         <div className="flex items-center justify-end space-x-2.5 w-9 lg:w-auto">
           {/* Circular Search Button (Replaces Notification Button per user instruction) */}
           <NavbarSearch />
+
+          {/* Desktop Theme Toggle */}
+          <ThemeToggle variant="icon" className="hidden lg:flex" />
 
           {user ? (
             <div className="hidden lg:flex items-center">

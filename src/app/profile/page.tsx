@@ -4,8 +4,8 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { DashboardShell } from "@/components/dashboard";
 import { ProfileForm } from "@/components/profile";
+import { getProfile } from "@/crud/read/getProfile";
 import { auth } from "@/lib/auth";
-import { getProfile } from "@/services/read/getProfile";
 import { ProfileSkeleton } from "@/suspense/profile-skeleton";
 
 export const metadata: Metadata = {

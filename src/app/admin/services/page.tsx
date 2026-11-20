@@ -4,12 +4,12 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { AdminServicesManager } from "@/components/admin";
 import { DashboardShell } from "@/components/dashboard";
+import { getAdminServices } from "@/crud/read/getAdminData";
 import { auth } from "@/lib/auth";
-import { getAdminServices } from "@/services/read/getAdminData";
 import { ServicesSkeleton } from "@/suspense/services-skeleton";
 
 export const metadata: Metadata = {
-  title: "Manage Services | Admin | WedPlan",
+  title: "Manage Services | Admin Panel | WedPlan",
   description:
     "Review pending vendor wedding services, approve or reject listings, and remove inappropriate entries.",
 };

@@ -17,6 +17,7 @@ const HIDDEN_CHROME_PREFIXES = [
   "/bookings",
   "/saved",
   "/profile",
+  "/payment",
 ];
 
 export function HeaderWrapper({ children }: HeaderWrapperProps) {

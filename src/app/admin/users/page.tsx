@@ -4,12 +4,12 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { AdminUsersManager } from "@/components/admin";
 import { DashboardShell } from "@/components/dashboard";
+import { getAdminUsers } from "@/crud/read/getAdminData";
 import { auth } from "@/lib/auth";
-import { getAdminUsers } from "@/services/read/getAdminData";
 import { DashboardSkeleton } from "@/suspense/dashboard-skeleton";
 
 export const metadata: Metadata = {
-  title: "Manage Users | Admin | WedPlan",
+  title: "Manage Users | Admin Panel | WedPlan",
   description:
     "Search, filter, block, or unblock registered WedPlan customers and vendors.",
 };

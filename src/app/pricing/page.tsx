@@ -1,12 +1,31 @@
 import type { Metadata } from "next";
-import { PricingSection } from "@/components/pricing";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
 
 export const metadata: Metadata = {
-  title: "Pricing & Vendor Plans | WedPlan",
+  title: "Vendor Plans Redirect | WedPlan",
   description:
-    "Explore WedPlan Free and Premium vendor subscription plans. Always 100% free for couples planning their dream wedding.",
+    "Vendor subscription plans are exclusively available inside the authenticated Vendor Portal.",
 };
 
-export default function PricingPage() {
-  return <PricingSection />;
+export default async function PricingRedirectPage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session?.user) {
+    redirect("/login?callbackUrl=/vendor/subscription");
+  }
+  if (session.user.isBlocked) {
+    redirect("/login?error=blocked");
+  }
+  if (session.user.role === "vendor") {
+    redirect("/vendor/subscription");
+  }
+  if (session.user.role === "admin") {
+    redirect("/admin");
+  }
+
+  redirect("/dashboard");
 }

@@ -22,8 +22,7 @@ export const FOOTER_DATA = {
   quickLinks: [
     { label: "Home", href: "/" },
     { label: "Browse Services", href: "/services" },
-    { label: "For Vendors", href: "/for-vendors" },
-    { label: "Pricing", href: "/pricing" },
+    { label: "Become a Vendor", href: "/for-vendors" },
     { label: "About Us", href: "/about" },
   ] satisfies FooterLinkItem[],
   serviceLinks: [
