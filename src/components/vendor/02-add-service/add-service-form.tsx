@@ -15,8 +15,8 @@ import { useRouter } from "next/navigation";
 import { type ChangeEvent, type FormEvent, useState } from "react";
 import { SERVICE_CATEGORIES } from "@/components/services/services-data";
 import { toast } from "@/components/ui/toast";
-import { createVendorService } from "@/services/create/createVendorService";
-import { uploadImageToImgBB } from "@/services/create/uploadImage";
+import { createVendorService } from "@/crud/create/createVendorService";
+import { uploadImageToImgBB } from "@/crud/create/uploadImage";
 
 interface AddServiceFormProps {
   activeCount: number;

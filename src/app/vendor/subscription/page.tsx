@@ -1,45 +1,43 @@
-import { Check, Crown, ShieldCheck } from "lucide-react";
+import { CreditCard, Crown } from "lucide-react";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { DashboardShell } from "@/components/dashboard";
-import { UpgradeToPremiumButton } from "@/components/vendor";
+import { VendorSubscriptionPlans } from "@/components/vendor";
+import { getProfile } from "@/crud/read/getProfile";
+import { getVendorServices } from "@/crud/read/getVendorServices";
+import { getVendorTransactions } from "@/crud/read/getVendorTransactions";
 import { auth } from "@/lib/auth";
-import { getProfile } from "@/services/read/getProfile";
-import { getVendorServices } from "@/services/read/getVendorServices";
 import { DashboardSkeleton } from "@/suspense/dashboard-skeleton";
 
 export const metadata: Metadata = {
-  title: "Vendor Subscription | WedPlan",
+  title: "Subscription Plans | Vendor Portal | WedPlan",
   description:
     "Compare Free and Premium vendor subscription tiers and upgrade for unlimited wedding service listings.",
 };
 
-const FREE_FEATURES = [
-  "Maximum 3 active wedding services",
-  "Basic Vendor Dashboard & analytics",
-  "Booking request management (Approve / Reject)",
-  "Public vendor profile & portfolio",
-];
-
-const PREMIUM_FEATURES = [
-  "Unlimited active wedding services",
-  "Exclusive Premium Vendor Badge across listings",
-  "Priority search & category placement",
-  "All Free Plan features included",
-];
-
 async function SubscriptionContent() {
-  const [profileRes, servicesRes] = await Promise.all([
+  const [profileRes, servicesRes, transactionsRes] = await Promise.all([
     getProfile(),
     getVendorServices(),
+    getVendorTransactions(),
   ]);
 
   const isPremium = profileRes.data?.subscriptionPlan === "premium";
+  const expiresAt = profileRes.data?.subscriptionExpiresAt ?? null;
   const activeServices = (servicesRes.data ?? []).filter(
     (s) => s.isActive && s.status !== "rejected",
   ).length;
+  const transactions = transactionsRes.data ?? [];
+
+  const formattedExpiry = expiresAt
+    ? new Date(expiresAt).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : null;
 
   return (
     <div className="space-y-8">
@@ -54,7 +52,9 @@ async function SubscriptionContent() {
           </h2>
           <p className="text-sm text-muted-foreground">
             {isPremium
-              ? "You have unlimited active service listings and the Premium Vendor Badge enabled."
+              ? formattedExpiry
+                ? `Unlimited active listings & Premium Vendor Badge active through ${formattedExpiry}.`
+                : "You have unlimited active service listings and the Premium Vendor Badge enabled."
               : `You are currently using ${activeServices} of 3 active service slots on the Free Plan.`}
           </p>
         </div>
@@ -65,96 +65,70 @@ async function SubscriptionContent() {
         </span>
       </div>
 
-      {/* Side-by-Side Plan Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Free Plan */}
-        <div className="rounded-3xl border border-border bg-card p-7 flex flex-col justify-between space-y-6">
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-lg font-bold text-foreground">Free Plan</h3>
-              <p className="text-xs text-muted-foreground mt-1">
-                Everything needed to start showcasing your services.
-              </p>
-            </div>
-            <p className="text-4xl font-bold text-foreground">
-              $0{" "}
-              <span className="text-sm font-medium text-muted-foreground">
-                / forever
-              </span>
-            </p>
-            <ul className="space-y-3 pt-2 border-t border-border/70">
-              {FREE_FEATURES.map((feat) => (
-                <li
-                  key={feat}
-                  className="flex items-start gap-2.5 text-sm text-foreground/90"
-                >
-                  <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-primary-subtle text-primary">
-                    <Check className="w-3 h-3 stroke-[2.5]" />
-                  </span>
-                  <span>{feat}</span>
-                </li>
-              ))}
-            </ul>
+      {/* Plan Comparison & Vendor-Only Stripe Checkout */}
+      <VendorSubscriptionPlans isPremium={isPremium} />
+
+      {/* Vendor Billing History */}
+      {transactions.length > 0 && (
+        <div className="space-y-4">
+          <div className="flex items-center gap-2">
+            <CreditCard className="w-4 h-4 text-primary" />
+            <h2 className="text-base font-bold text-foreground">
+              My Payment History
+            </h2>
           </div>
 
-          <div className="py-3 rounded-full border border-border bg-muted/50 text-center text-xs font-semibold text-muted-foreground">
-            {isPremium ? "Included in Premium" : "Current Active Plan"}
+          <div className="overflow-x-auto rounded-3xl border border-border bg-card shadow-xs">
+            <table className="w-full text-left text-sm">
+              <thead className="border-b border-border bg-muted/40 text-xs uppercase tracking-wider text-muted-foreground">
+                <tr>
+                  <th className="px-5 py-3.5">Plan</th>
+                  <th className="px-5 py-3.5">Billing</th>
+                  <th className="px-5 py-3.5">Amount</th>
+                  <th className="px-5 py-3.5">Status</th>
+                  <th className="px-5 py-3.5">Date</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border/70">
+                {transactions.map((tx) => (
+                  <tr key={tx.id} className="hover:bg-muted/20">
+                    <td className="px-5 py-4 capitalize font-semibold text-foreground">
+                      {tx.plan}
+                    </td>
+                    <td className="px-5 py-4 capitalize text-muted-foreground">
+                      {tx.billingCycle}
+                    </td>
+                    <td className="px-5 py-4 font-semibold text-foreground">
+                      ${tx.amount.toLocaleString()}{" "}
+                      <span className="uppercase text-xs text-muted-foreground font-normal">
+                        {tx.currency}
+                      </span>
+                    </td>
+                    <td className="px-5 py-4">
+                      <span
+                        className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize ${
+                          tx.status === "succeeded"
+                            ? "bg-primary-subtle text-primary"
+                            : "bg-muted text-muted-foreground"
+                        }`}
+                      >
+                        {tx.status}
+                      </span>
+                    </td>
+                    <td className="px-5 py-4 text-xs text-muted-foreground">
+                      {new Date(tx.createdAt).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
-
-        {/* Premium Plan */}
-        <div className="rounded-3xl border border-primary/50 bg-card p-7 shadow-lg ring-1 ring-primary/15 flex flex-col justify-between space-y-6">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between gap-2">
-              <div>
-                <h3 className="text-lg font-bold text-foreground">
-                  Premium Plan
-                </h3>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Scale your wedding business with unlimited listings.
-                </p>
-              </div>
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-semibold shrink-0">
-                <Crown className="w-3.5 h-3.5" />
-                <span>Recommended</span>
-              </span>
-            </div>
-            <p className="text-4xl font-bold text-foreground">
-              $29{" "}
-              <span className="text-sm font-medium text-muted-foreground">
-                / month
-              </span>
-            </p>
-            <ul className="space-y-3 pt-2 border-t border-border/70">
-              {PREMIUM_FEATURES.map((feat) => (
-                <li
-                  key={feat}
-                  className="flex items-start gap-2.5 text-sm text-foreground/90"
-                >
-                  <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                    <Check className="w-3 h-3 stroke-[2.5]" />
-                  </span>
-                  <span>{feat}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {isPremium ? (
-            <div className="py-3 rounded-full bg-primary-subtle text-primary text-center text-xs font-bold">
-              Premium Plan Active
-            </div>
-          ) : (
-            <div className="space-y-2.5">
-              <UpgradeToPremiumButton />
-              <p className="flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground">
-                <ShieldCheck className="w-3.5 h-3.5 text-primary" />
-                <span>Encrypted test payment powered by Stripe Checkout.</span>
-              </p>
-            </div>
-          )}
-        </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -186,9 +160,9 @@ export default async function VendorSubscriptionPage() {
         image: session.user.image,
         role: "vendor",
       }}
-      badge="Subscription"
-      title="Vendor Subscription Plan"
-      description="View your current plan quota or upgrade to Premium for unlimited active wedding services."
+      badge="Vendor Subscription"
+      title="Vendor Subscription Plans"
+      description="Compare plan quotas, review your payment receipts, or upgrade to Premium via Stripe Checkout."
     >
       <Suspense fallback={<DashboardSkeleton />}>
         <SubscriptionContent />

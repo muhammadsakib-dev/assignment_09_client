@@ -3,13 +3,18 @@
 import { ArrowRight, Loader2, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { toast } from "@/components/ui/toast";
-import { createCheckoutSession } from "@/services/create/createCheckoutSession";
+import type { BillingCycle } from "@/crud/checkout.types";
+import { createCheckoutSession } from "@/crud/create/createCheckoutSession";
 
 interface UpgradeToPremiumButtonProps {
+  billingCycle?: BillingCycle;
+  label?: string;
   className?: string;
 }
 
 export function UpgradeToPremiumButton({
+  billingCycle = "monthly",
+  label = "Upgrade to Premium",
   className = "",
 }: UpgradeToPremiumButtonProps) {
   const [loading, setLoading] = useState(false);
@@ -17,7 +22,7 @@ export function UpgradeToPremiumButton({
   const handleUpgrade = async () => {
     try {
       setLoading(true);
-      const res = await createCheckoutSession();
+      const res = await createCheckoutSession(billingCycle);
 
       if (!res.success || !res.data?.url) {
         toast.add({
@@ -31,7 +36,7 @@ export function UpgradeToPremiumButton({
         return;
       }
 
-      // Redirect to Stripe Checkout page
+      // Redirect vendor to Stripe Checkout page
       window.location.href = res.data.url;
     } catch (err) {
       console.error("Upgrade error:", err);
@@ -49,7 +54,7 @@ export function UpgradeToPremiumButton({
       type="button"
       onClick={handleUpgrade}
       disabled={loading}
-      className={`w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-full bg-primary hover:bg-primary-hover text-primary-foreground text-sm font-semibold shadow-md transition-all disabled:opacity-60 disabled:cursor-not-allowed ${className}`}
+      className={`w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-full bg-primary hover:bg-primary-hover text-primary-foreground text-sm font-semibold shadow-md transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed ${className}`}
     >
       {loading ? (
         <>
@@ -59,7 +64,7 @@ export function UpgradeToPremiumButton({
       ) : (
         <>
           <Sparkles className="w-4 h-4" />
-          <span>Upgrade to Premium</span>
+          <span>{label}</span>
           <ArrowRight className="w-4 h-4" />
         </>
       )}

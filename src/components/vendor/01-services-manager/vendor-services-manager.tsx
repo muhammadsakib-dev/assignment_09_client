@@ -19,14 +19,14 @@ import { useRouter } from "next/navigation";
 import { type ChangeEvent, type FormEvent, useState } from "react";
 import { SERVICE_CATEGORIES } from "@/components/services/services-data";
 import { toast } from "@/components/ui/toast";
-import { cn } from "@/lib/utils";
-import { uploadImageToImgBB } from "@/services/create/uploadImage";
-import { deleteVendorService } from "@/services/delete/deleteVendorService";
-import { updateVendorService } from "@/services/update/updateVendorService";
+import { uploadImageToImgBB } from "@/crud/create/uploadImage";
+import { deleteVendorService } from "@/crud/delete/deleteVendorService";
+import { updateVendorService } from "@/crud/update/updateVendorService";
 import type {
   VendorServiceRecord,
   VendorServiceStatus,
-} from "@/services/vendor-services.types";
+} from "@/crud/vendor-services.types";
+import { cn } from "@/lib/utils";
 
 interface VendorServicesManagerProps {
   services: VendorServiceRecord[];
@@ -37,7 +37,8 @@ interface VendorServicesManagerProps {
 const FREE_PLAN_LIMIT = 3;
 
 const STATUS_BADGE: Record<VendorServiceStatus, string> = {
-  pending: "bg-champagne/60 text-foreground border-border",
+  pending:
+    "bg-champagne/60 text-foreground border-border dark:bg-champagne/15 dark:text-champagne dark:border-champagne/25",
   approved: "bg-primary text-primary-foreground border-primary",
   rejected: "bg-destructive/10 text-destructive border-destructive/25",
 };
