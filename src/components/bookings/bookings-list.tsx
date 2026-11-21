@@ -15,7 +15,7 @@ import { BookingActions } from "./02-actions/booking-actions";
 
 interface BookingsListProps {
   bookings: BookingRecord[];
-  viewerRole: "user" | "vendor" | "admin";
+  viewerRole: "user" | "customer" | "vendor" | "admin";
   errorMessage?: string;
 }
 

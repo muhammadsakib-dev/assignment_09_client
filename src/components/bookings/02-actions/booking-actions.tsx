@@ -10,7 +10,7 @@ import { updateBookingStatus } from "@/crud/update/updateBookingStatus";
 interface BookingActionsProps {
   bookingId: string;
   status: BookingStatus;
-  viewerRole: "user" | "vendor" | "admin";
+  viewerRole: "user" | "customer" | "vendor" | "admin";
 }
 
 export function BookingActions({
@@ -54,7 +54,9 @@ export function BookingActions({
   };
 
   // Per spec: Customer can cancel pending bookings only; Vendor approves/rejects pending only
-  const canCustomerCancel = viewerRole === "user" && status === "pending";
+  const canCustomerCancel =
+    (viewerRole === "user" || viewerRole === "customer") &&
+    status === "pending";
   const canVendorDecide = viewerRole === "vendor" && status === "pending";
 
   if (!canCustomerCancel && !canVendorDecide) {
