@@ -35,6 +35,7 @@ export function Navbar({ navbar }: NavbarProps) {
   // Map each authenticated role to its navigation list
   const roleNavMap: Record<string, NavItem[]> = {
     user: navItemsUser,
+    customer: navItemsUser,
     vendor: navItemsVendor,
     admin: navItemsAdmin,
   };
