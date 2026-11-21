@@ -31,8 +31,8 @@ export function SignUp() {
   const roleParam = searchParams.get("role");
   const explicitCallback = searchParams.get("callbackUrl");
 
-  const [role, setRole] = useState<"user" | "vendor">(
-    roleParam === "vendor" ? "vendor" : "user",
+  const [role, setRole] = useState<"customer" | "user" | "vendor">(
+    roleParam === "vendor" ? "vendor" : "customer",
   );
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -191,7 +191,7 @@ export function SignUp() {
           <div className="mt-6 p-1 rounded-2xl bg-muted/60 border border-border flex items-center gap-1">
             <button
               type="button"
-              onClick={() => setRole("user")}
+              onClick={() => setRole("customer")}
               className={cn(
                 "flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-semibold transition-all cursor-pointer",
                 !isVendor
