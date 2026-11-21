@@ -18,8 +18,8 @@ const PUBLIC_ROLES = new Set(["user", "customer", "vendor"]);
 
 export const auth = betterAuth({
   database: mongodbAdapter(db),
-  secret: process.env.BETTER_AUTH_SECRET,
-  baseURL: process.env.BETTER_AUTH_URL,
+  secret: process.env.BETTER_AUTH_SECRET?.trim(),
+  baseURL: process.env.BETTER_AUTH_URL?.trim(),
   user: {
     additionalFields: {
       role: {
@@ -68,8 +68,8 @@ export const auth = betterAuth({
   },
   socialProviders: {
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      clientId: (process.env.GOOGLE_CLIENT_ID || "").trim(),
+      clientSecret: (process.env.GOOGLE_CLIENT_SECRET || "").trim(),
     },
   },
 });
