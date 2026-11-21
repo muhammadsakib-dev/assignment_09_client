@@ -12,7 +12,7 @@ export interface AdminUserRecord {
   name: string;
   email: string;
   image: string;
-  role: "user" | "vendor" | "admin";
+  role: "user" | "customer" | "vendor" | "admin";
   isBlocked: boolean;
   businessName: string;
   phone: string;

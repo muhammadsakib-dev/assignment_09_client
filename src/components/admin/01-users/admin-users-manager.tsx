@@ -38,7 +38,13 @@ export function AdminUsersManager({
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     return users.filter((u) => {
-      const matchesRole = roleFilter === "all" || u.role === roleFilter;
+      const matchesRole =
+        roleFilter === "all" ||
+        u.role === roleFilter ||
+        (roleFilter === "user" &&
+          (u.role === "user" || u.role === "customer")) ||
+        (roleFilter === "customer" &&
+          (u.role === "user" || u.role === "customer"));
       const matchesSearch =
         !q ||
         u.name.toLowerCase().includes(q) ||
