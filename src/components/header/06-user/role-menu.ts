@@ -22,7 +22,7 @@ export const NAV_ICONS: Record<NavIconName, LucideIcon> = {
   users: Users,
 };
 
-export type UserRole = "user" | "vendor" | "admin";
+export type UserRole = "user" | "customer" | "vendor" | "admin";
 
 export interface RoleMenuItem {
   label: string;
@@ -37,17 +37,20 @@ export interface RoleMenuConfig {
   items: RoleMenuItem[];
 }
 
+const CUSTOMER_MENU: RoleMenuConfig = {
+  badge: null,
+  sectionTitle: "Customer Portal",
+  items: [
+    { label: "Customer Dashboard", href: "/dashboard", icon: LayoutGrid },
+    { label: "My Bookings", href: "/bookings", icon: Calendar },
+    { label: "Saved Services", href: "/saved", icon: Heart },
+    { label: "Profile Settings", href: "/profile", icon: User },
+  ],
+};
+
 const ROLE_MENUS: Record<UserRole, RoleMenuConfig> = {
-  user: {
-    badge: null,
-    sectionTitle: "Customer Portal",
-    items: [
-      { label: "Customer Dashboard", href: "/dashboard", icon: LayoutGrid },
-      { label: "My Bookings", href: "/bookings", icon: Calendar },
-      { label: "Saved Services", href: "/saved", icon: Heart },
-      { label: "Profile Settings", href: "/profile", icon: User },
-    ],
-  },
+  user: CUSTOMER_MENU,
+  customer: CUSTOMER_MENU,
   vendor: {
     badge: "Vendor",
     sectionTitle: "Vendor Portal",
