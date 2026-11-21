@@ -32,13 +32,19 @@ interface SidebarLink {
   icon: LucideIcon;
 }
 
-const ROLE_SIDEBAR_LINKS: Record<"user" | "vendor" | "admin", SidebarLink[]> = {
-  user: [
-    { label: "Customer Overview", href: "/dashboard", icon: LayoutGrid },
-    { label: "My Bookings", href: "/bookings", icon: Calendar },
-    { label: "Saved Services", href: "/saved", icon: Heart },
-    { label: "Profile Settings", href: "/profile", icon: User },
-  ],
+const CUSTOMER_SIDEBAR_LINKS: SidebarLink[] = [
+  { label: "Customer Overview", href: "/dashboard", icon: LayoutGrid },
+  { label: "My Bookings", href: "/bookings", icon: Calendar },
+  { label: "Saved Services", href: "/saved", icon: Heart },
+  { label: "Profile Settings", href: "/profile", icon: User },
+];
+
+const ROLE_SIDEBAR_LINKS: Record<
+  "user" | "customer" | "vendor" | "admin",
+  SidebarLink[]
+> = {
+  user: CUSTOMER_SIDEBAR_LINKS,
+  customer: CUSTOMER_SIDEBAR_LINKS,
   vendor: [
     { label: "Vendor Overview", href: "/vendor/dashboard", icon: LayoutGrid },
     { label: "My Services", href: "/vendor/services", icon: Briefcase },
@@ -65,7 +71,7 @@ interface DashboardSidebarProps {
     name: string;
     email: string;
     image?: string | null;
-    role: "user" | "vendor" | "admin";
+    role: "user" | "customer" | "vendor" | "admin";
   };
 }
 

@@ -6,7 +6,7 @@ interface DashboardShellProps {
     name: string;
     email: string;
     image?: string | null;
-    role: "user" | "vendor" | "admin";
+    role: "user" | "customer" | "vendor" | "admin";
   };
   title: string;
   description?: string;
