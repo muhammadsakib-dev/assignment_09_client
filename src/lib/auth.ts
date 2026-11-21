@@ -14,7 +14,7 @@ if (process.env.NODE_ENV !== "production") {
 const db = client.db(process.env.DB_NAME || "WedPlan");
 
 // Only standard customer and vendor roles may be chosen at public sign-up
-const PUBLIC_ROLES = new Set(["user", "vendor"]);
+const PUBLIC_ROLES = new Set(["user", "customer", "vendor"]);
 
 export const auth = betterAuth({
   database: mongodbAdapter(db),
