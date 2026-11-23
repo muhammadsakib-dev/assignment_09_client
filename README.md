@@ -180,5 +180,5 @@ npm start
 ## 🔗 Project Links
 - **Live Client Web App**: `https://wedplan-client.vercel.app` (or your deployment URL)
 - **Live Server API**: `https://wedplan-server.onrender.com` (or your deployment URL)
-- **Client GitHub Repository**: `https://github.com/<YOUR_GITHUB_USERNAME>/assignment_09_client`
-- **Server GitHub Repository**: `https://github.com/<YOUR_GITHUB_USERNAME>/assignment_09_server`
+- **Client GitHub Repository**: `https://github.com/muhammadsakib-dev/assignment_09_client`
+- **Server GitHub Repository**: `https://github.com/muhammadsakib-dev/assignment_09_server`
