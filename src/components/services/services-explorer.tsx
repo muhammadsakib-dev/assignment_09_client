@@ -2,6 +2,8 @@
 
 import {
   AlertCircle,
+  ChevronLeft,
+  ChevronRight,
   MapPin,
   Search,
   SlidersHorizontal,
@@ -19,6 +21,7 @@ import { SERVICE_CATEGORIES, SERVICE_LOCATIONS } from "./services-data";
 type SortOption = "featured" | "price-asc" | "price-desc";
 
 const ALL_CATEGORY = "All Categories";
+const SERVICES_PER_PAGE = 6;
 
 interface ServicesExplorerProps {
   initialServices: VendorServiceRecord[];
@@ -41,12 +44,19 @@ export function ServicesExplorer({
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [selectedLocation, setSelectedLocation] = useState(initialLocation);
   const [sortBy, setSortBy] = useState<SortOption>("featured");
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setSelectedCategory(searchParams.get("category") || ALL_CATEGORY);
     setSearchQuery(searchParams.get("search") || "");
     setSelectedLocation(searchParams.get("location") || "All Locations");
+    setCurrentPage(1);
   }, [searchParams]);
+
+  // Reset to page 1 whenever search, category, location or sort filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedCategory, selectedLocation, sortBy]);
 
   // Combine default locations with any custom city entered by real vendors in MongoDB
   const locationOptions = useMemo(() => {
@@ -96,6 +106,48 @@ export function ServicesExplorer({
     sortBy,
   ]);
 
+  const totalServices = filteredServices.length;
+  const totalPages = Math.max(1, Math.ceil(totalServices / SERVICES_PER_PAGE));
+  const safePage = Math.min(Math.max(1, currentPage), totalPages);
+
+  const paginatedServices = useMemo(() => {
+    const start = (safePage - 1) * SERVICES_PER_PAGE;
+    return filteredServices.slice(start, start + SERVICES_PER_PAGE);
+  }, [filteredServices, safePage]);
+
+  const startItem =
+    totalServices === 0 ? 0 : (safePage - 1) * SERVICES_PER_PAGE + 1;
+  const endItem = Math.min(safePage * SERVICES_PER_PAGE, totalServices);
+
+  const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalPages || page === safePage) return;
+    setCurrentPage(page);
+    const anchor = document.getElementById("services-catalog-top");
+    if (anchor) {
+      anchor.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  const getPageNumbers = (): (number | "...")[] => {
+    if (totalPages <= 5) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+    const pages: (number | "...")[] = [1];
+    if (safePage > 3) {
+      pages.push("...");
+    }
+    const start = Math.max(2, safePage - 1);
+    const end = Math.min(totalPages - 1, safePage + 1);
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    if (safePage < totalPages - 2) {
+      pages.push("...");
+    }
+    pages.push(totalPages);
+    return pages;
+  };
+
   const hasActiveFilters =
     searchQuery.trim() !== "" ||
     selectedCategory !== ALL_CATEGORY ||
@@ -107,6 +159,7 @@ export function ServicesExplorer({
     setSelectedCategory(ALL_CATEGORY);
     setSelectedLocation("All Locations");
     setSortBy("featured");
+    setCurrentPage(1);
   };
 
   return (
@@ -223,13 +276,30 @@ export function ServicesExplorer({
         </div>
 
         {/* Result Summary Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3">
+        <div
+          id="services-catalog-top"
+          className="flex flex-wrap items-center justify-between gap-3 scroll-mt-24"
+        >
           <p className="text-sm text-muted-foreground">
-            Showing{" "}
-            <strong className="font-semibold text-foreground">
-              {filteredServices.length}
-            </strong>{" "}
-            {filteredServices.length === 1 ? "service" : "services"}
+            {totalServices > 0 ? (
+              <>
+                Showing{" "}
+                <strong className="font-semibold text-foreground">
+                  {startItem}–{endItem}
+                </strong>{" "}
+                of{" "}
+                <strong className="font-semibold text-foreground">
+                  {totalServices}
+                </strong>{" "}
+                {totalServices === 1 ? "service" : "services"}
+              </>
+            ) : (
+              <>
+                Showing{" "}
+                <strong className="font-semibold text-foreground">0</strong>{" "}
+                services
+              </>
+            )}
             {selectedCategory !== ALL_CATEGORY && (
               <>
                 {" "}
@@ -238,6 +308,11 @@ export function ServicesExplorer({
                   {selectedCategory}
                 </span>
               </>
+            )}
+            {totalPages > 1 && (
+              <span className="ml-2 text-xs opacity-75 font-medium">
+                (Page {safePage} of {totalPages})
+              </span>
             )}
           </p>
 
@@ -254,24 +329,104 @@ export function ServicesExplorer({
         </div>
 
         {/* Listing Grid or Empty State */}
-        {filteredServices.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredServices.map((service, index) => (
-              <motion.div
-                key={service.id}
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.35,
-                  delay: Math.min(index * 0.04, 0.25),
-                }}
-              >
-                <ServiceCard
-                  service={service}
-                  initialSaved={savedSet.has(service.id)}
-                />
-              </motion.div>
-            ))}
+        {totalServices > 0 ? (
+          <div className="space-y-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {paginatedServices.map((service, index) => (
+                <motion.div
+                  key={service.id}
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.35,
+                    delay: Math.min(index * 0.04, 0.25),
+                  }}
+                >
+                  <ServiceCard
+                    service={service}
+                    initialSaved={savedSet.has(service.id)}
+                  />
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="pt-6 border-t border-border/70 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p className="text-xs text-muted-foreground order-2 sm:order-1">
+                  Showing{" "}
+                  <span className="font-semibold text-foreground">
+                    {startItem}–{endItem}
+                  </span>{" "}
+                  of{" "}
+                  <span className="font-semibold text-foreground">
+                    {totalServices}
+                  </span>{" "}
+                  services (Page {safePage} of {totalPages})
+                </p>
+
+                <nav
+                  role="navigation"
+                  aria-label="Services pagination"
+                  className="flex items-center gap-1.5 order-1 sm:order-2"
+                >
+                  <button
+                    type="button"
+                    onClick={() => handlePageChange(safePage - 1)}
+                    disabled={safePage === 1}
+                    aria-label="Go to previous page"
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-2xl border border-border bg-card hover:bg-muted text-xs font-semibold text-foreground transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-xs"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    <span className="hidden sm:inline">Previous</span>
+                  </button>
+
+                  <div className="flex items-center gap-1">
+                    {getPageNumbers().map((item, idx) => {
+                      if (item === "...") {
+                        return (
+                          <span
+                            key={`ellipsis-${idx}`}
+                            className="px-2 py-1 text-xs text-muted-foreground select-none"
+                          >
+                            …
+                          </span>
+                        );
+                      }
+                      const isCurrent = item === safePage;
+                      return (
+                        <button
+                          key={item}
+                          type="button"
+                          onClick={() => handlePageChange(item)}
+                          aria-current={isCurrent ? "page" : undefined}
+                          aria-label={`Page ${item}`}
+                          className={cn(
+                            "size-9 rounded-2xl text-xs font-semibold transition-all cursor-pointer flex items-center justify-center border",
+                            isCurrent
+                              ? "bg-primary text-primary-foreground border-primary shadow-xs font-bold"
+                              : "bg-card text-foreground border-border hover:bg-muted hover:border-foreground/20",
+                          )}
+                        >
+                          {item}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => handlePageChange(safePage + 1)}
+                    disabled={safePage === totalPages}
+                    aria-label="Go to next page"
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-2xl border border-border bg-card hover:bg-muted text-xs font-semibold text-foreground transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-xs"
+                  >
+                    <span className="hidden sm:inline">Next</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </nav>
+              </div>
+            )}
           </div>
         ) : (
           <div className="rounded-3xl border border-border bg-card/70 p-12 text-center space-y-4">
