@@ -6,6 +6,7 @@ import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
 interface AuthSocialButtonProps {
+  role?: "customer" | "user" | "vendor";
   callbackURL?: string;
   disabled?: boolean;
   className?: string;
@@ -13,6 +14,7 @@ interface AuthSocialButtonProps {
 }
 
 export function AuthSocialButton({
+  role,
   callbackURL = "/",
   disabled = false,
   className,
@@ -23,10 +25,17 @@ export function AuthSocialButton({
   const handleGoogleSignIn = async () => {
     try {
       setIsLoading(true);
+
+      // Persist chosen role in a short-lived cookie so backend OAuth callback knows customer vs vendor
+      if (role) {
+        document.cookie = `wedplan_pending_role=${encodeURIComponent(role)}; path=/; max-age=600; SameSite=Lax`;
+      }
+
       await authClient.signIn.social({
         provider: "google",
         callbackURL,
-      });
+        ...(role ? { additionalData: { role } } : {}),
+      } as Parameters<typeof authClient.signIn.social>[0]);
     } catch (err: unknown) {
       setIsLoading(false);
       const message =

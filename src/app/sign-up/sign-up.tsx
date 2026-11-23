@@ -225,6 +225,7 @@ export function SignUp() {
           {/* Social Sign Up */}
           <div className="mt-6">
             <AuthSocialButton
+              role={role}
               callbackURL={redirectTarget}
               onError={(err) => setErrorMessage(err)}
             />
