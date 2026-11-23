@@ -13,7 +13,7 @@
 5. [Environment Variables](#environment-variables)
 6. [Installation & Setup](#installation--setup)
 7. [How to Run Locally](#how-to-run-locally)
-8. [Evaluation & Testing Credentials](#evaluation--testing-credentials)
+8. [Access & Role Permissions](#access--role-permissions)
 9. [Project Links](#project-links)
 
 ---
@@ -167,13 +167,15 @@ npm start
 
 ---
 
-## 🔑 Evaluation & Testing Credentials
+## 🔐 Access & Role Permissions
 
-| Role | Email | Password | Access / Permissions |
-| :--- | :--- | :--- | :--- |
-| **Admin** | `admin@wedplan.com` | `WedPlan@2026` | Full Admin Dashboard (`/admin`), Manage Users, Moderate Services, View Transactions |
-| **Vendor** | `vendor@wedplan.com` | `WedPlan@2026` | Vendor Dashboard (`/vendor/dashboard`), Add Services, Manage Bookings, Stripe Upgrade |
-| **Customer** | `customer@wedplan.com` | `WedPlan@2026` | Customer Dashboard (`/dashboard`), Browse & Filter, Submit Inquiries, Wishlist |
+| Role | Access / Permissions |
+| :--- | :--- |
+| **Admin** | Full Admin Dashboard (`/admin`), Manage Users, Moderate Services, View Transactions |
+| **Vendor** | Vendor Dashboard (`/vendor/dashboard`), Add Services, Manage Bookings, Stripe Upgrade |
+| **Customer** | Customer Dashboard (`/dashboard`), Browse & Filter, Submit Inquiries, Wishlist |
+
+> **Security Note:** Testing credentials for evaluation are submitted directly via the private assignment submission form and are intentionally excluded from the public repository for security.
 
 ---
 
