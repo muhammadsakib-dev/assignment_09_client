@@ -193,15 +193,16 @@ export function AdminServicesManager({
               className="rounded-3xl border border-border/80 bg-card p-5 shadow-xs flex flex-col md:flex-row gap-5"
             >
               <div className="relative aspect-16/10 md:aspect-square md:w-36 md:h-36 shrink-0 overflow-hidden rounded-2xl border border-border/70 bg-muted">
-                {s.images[0] && (
-                  <Image
-                    src={s.images[0]}
-                    alt={s.serviceName}
-                    fill
-                    sizes="144px"
-                    className="object-cover"
-                  />
-                )}
+                <Image
+                  src={
+                    s.images?.[0] ||
+                    "https://ik.imagekit.io/muhammadsakib/Assignment_09/wedding_01.jpg"
+                  }
+                  alt={s.serviceName}
+                  fill
+                  sizes="144px"
+                  className="object-cover"
+                />
               </div>
 
               <div className="flex-1 min-w-0 flex flex-col justify-between gap-4">

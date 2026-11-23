@@ -4,6 +4,9 @@ import Image from "next/image";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
+const DEFAULT_SERVICE_IMAGE =
+  "https://ik.imagekit.io/muhammadsakib/Assignment_09/wedding_01.jpg";
+
 interface ServiceGalleryProps {
   images: string[];
   serviceName: string;
@@ -11,7 +14,13 @@ interface ServiceGalleryProps {
 
 export function ServiceGallery({ images, serviceName }: ServiceGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const currentImage = images[activeIndex] || images[0];
+  const validImages =
+    images && images.length > 0
+      ? images.filter((img) => img && img.trim().startsWith("http"))
+      : [];
+  const galleryList =
+    validImages.length > 0 ? validImages : [DEFAULT_SERVICE_IMAGE];
+  const currentImage = galleryList[activeIndex] || galleryList[0];
 
   return (
     <div className="space-y-3.5">
@@ -28,9 +37,9 @@ export function ServiceGallery({ images, serviceName }: ServiceGalleryProps) {
       </div>
 
       {/* Thumbnail Strip */}
-      {images.length > 1 && (
+      {galleryList.length > 1 && (
         <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
-          {images.map((img, idx) => (
+          {galleryList.map((img, idx) => (
             <button
               key={img}
               type="button"

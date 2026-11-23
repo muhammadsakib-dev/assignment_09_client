@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { API_BASE_URL } from "@/config/env";
 import { getAuthFetchHeaders } from "@/lib/server-api";
 import type {
   BookingAction,
@@ -12,15 +13,10 @@ export async function updateBookingStatus(
   bookingId: string,
   action: BookingAction,
 ): Promise<BookingServiceResult<BookingRecord>> {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return { success: false, message: "Backend API URL is not configured." };
-  }
-
   try {
     const authHeaders = await getAuthFetchHeaders(true);
     const res = await fetch(
-      `${baseUrl}/bookings/${encodeURIComponent(bookingId)}/status`,
+      `${API_BASE_URL}/bookings/${encodeURIComponent(bookingId)}/status`,
       {
         method: "PATCH",
         headers: authHeaders,

@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { API_BASE_URL } from "@/config/env";
 import { getAuthFetchHeaders } from "@/lib/server-api";
 import type { AdminServiceResult } from "../admin.types";
 import type {
@@ -12,15 +13,10 @@ export async function updateAdminServiceStatus(
   serviceId: string,
   status: VendorServiceStatus,
 ): Promise<AdminServiceResult<VendorServiceRecord>> {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return { success: false, message: "Backend API URL is not configured." };
-  }
-
   try {
     const authHeaders = await getAuthFetchHeaders(true);
     const res = await fetch(
-      `${baseUrl}/admin/services/${encodeURIComponent(serviceId)}/status`,
+      `${API_BASE_URL}/admin/services/${encodeURIComponent(serviceId)}/status`,
       {
         method: "PATCH",
         headers: authHeaders,
@@ -55,15 +51,10 @@ export async function toggleAdminUserBlock(
   userId: string,
   isBlocked: boolean,
 ): Promise<AdminServiceResult<{ id: string; isBlocked: boolean }>> {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return { success: false, message: "Backend API URL is not configured." };
-  }
-
   try {
     const authHeaders = await getAuthFetchHeaders(true);
     const res = await fetch(
-      `${baseUrl}/admin/users/${encodeURIComponent(userId)}/block`,
+      `${API_BASE_URL}/admin/users/${encodeURIComponent(userId)}/block`,
       {
         method: "PATCH",
         headers: authHeaders,

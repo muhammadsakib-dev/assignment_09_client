@@ -1,21 +1,17 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { API_BASE_URL } from "@/config/env";
 import { getAuthFetchHeaders } from "@/lib/server-api";
 import type { AdminServiceResult } from "../admin.types";
 
 export async function deleteAdminService(
   serviceId: string,
 ): Promise<AdminServiceResult<null>> {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return { success: false, message: "Backend API URL is not configured." };
-  }
-
   try {
     const authHeaders = await getAuthFetchHeaders();
     const res = await fetch(
-      `${baseUrl}/admin/services/${encodeURIComponent(serviceId)}`,
+      `${API_BASE_URL}/admin/services/${encodeURIComponent(serviceId)}`,
       {
         method: "DELETE",
         headers: authHeaders,

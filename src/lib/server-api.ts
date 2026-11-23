@@ -1,5 +1,6 @@
 import crypto from "node:crypto";
 import { headers } from "next/headers";
+import { BETTER_AUTH_SECRET } from "@/config/env";
 import { auth } from "./auth";
 
 // Sign a short-lived HS256 JWT for Express backend verification (5 min TTL)
@@ -32,7 +33,7 @@ export async function getAuthFetchHeaders(
     result.cookie = cookie;
   }
 
-  const secret = process.env.BETTER_AUTH_SECRET;
+  const secret = BETTER_AUTH_SECRET;
   if (secret) {
     const session = await auth.api.getSession({ headers: reqHeaders });
     if (session?.user) {

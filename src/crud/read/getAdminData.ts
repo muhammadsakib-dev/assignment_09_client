@@ -1,5 +1,6 @@
 "use server";
 
+import { API_BASE_URL } from "@/config/env";
 import { getAuthFetchHeaders } from "@/lib/server-api";
 import type {
   AdminOverviewStats,
@@ -12,14 +13,9 @@ import type { VendorServiceRecord } from "../vendor-services.types";
 export async function getAdminOverview(): Promise<
   AdminServiceResult<AdminOverviewStats>
 > {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return { success: false, message: "Backend API URL is not configured." };
-  }
-
   try {
     const authHeaders = await getAuthFetchHeaders();
-    const res = await fetch(`${baseUrl}/admin/overview`, {
+    const res = await fetch(`${API_BASE_URL}/admin/overview`, {
       method: "GET",
       headers: authHeaders,
       cache: "no-store",
@@ -43,15 +39,6 @@ export async function getAdminUsers(filters?: {
   search?: string;
   role?: string;
 }): Promise<AdminServiceResult<AdminUserRecord[]>> {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return {
-      success: false,
-      message: "Backend API URL is not configured.",
-      data: [],
-    };
-  }
-
   try {
     const params = new URLSearchParams();
     if (filters?.search) params.set("search", filters.search);
@@ -61,7 +48,7 @@ export async function getAdminUsers(filters?: {
 
     const authHeaders = await getAuthFetchHeaders();
     const res = await fetch(
-      `${baseUrl}/admin/users${query ? `?${query}` : ""}`,
+      `${API_BASE_URL}/admin/users${query ? `?${query}` : ""}`,
       {
         method: "GET",
         headers: authHeaders,
@@ -92,15 +79,6 @@ export async function getAdminServices(filters?: {
   status?: string;
   category?: string;
 }): Promise<AdminServiceResult<VendorServiceRecord[]>> {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return {
-      success: false,
-      message: "Backend API URL is not configured.",
-      data: [],
-    };
-  }
-
   try {
     const params = new URLSearchParams();
     if (filters?.search) params.set("search", filters.search);
@@ -114,7 +92,7 @@ export async function getAdminServices(filters?: {
 
     const authHeaders = await getAuthFetchHeaders();
     const res = await fetch(
-      `${baseUrl}/admin/services${query ? `?${query}` : ""}`,
+      `${API_BASE_URL}/admin/services${query ? `?${query}` : ""}`,
       {
         method: "GET",
         headers: authHeaders,
@@ -145,18 +123,9 @@ export async function getAdminServices(filters?: {
 export async function getAdminTransactions(): Promise<
   AdminServiceResult<AdminTransactionRecord[]>
 > {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return {
-      success: false,
-      message: "Backend API URL is not configured.",
-      data: [],
-    };
-  }
-
   try {
     const authHeaders = await getAuthFetchHeaders();
-    const res = await fetch(`${baseUrl}/admin/transactions`, {
+    const res = await fetch(`${API_BASE_URL}/admin/transactions`, {
       method: "GET",
       headers: authHeaders,
       cache: "no-store",

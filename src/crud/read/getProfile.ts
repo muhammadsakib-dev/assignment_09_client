@@ -1,19 +1,15 @@
 "use server";
 
+import { API_BASE_URL } from "@/config/env";
 import { getAuthFetchHeaders } from "@/lib/server-api";
 import type { ProfileServiceResult, UserProfileRecord } from "../profile.types";
 
 export async function getProfile(): Promise<
   ProfileServiceResult<UserProfileRecord>
 > {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return { success: false, message: "Backend API URL is not configured." };
-  }
-
   try {
     const authHeaders = await getAuthFetchHeaders();
-    const res = await fetch(`${baseUrl}/profile`, {
+    const res = await fetch(`${API_BASE_URL}/profile`, {
       method: "GET",
       headers: authHeaders,
       cache: "no-store",

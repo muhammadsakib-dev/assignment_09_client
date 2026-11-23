@@ -84,15 +84,16 @@ export function SavedServicesList({
           className="flex flex-col overflow-hidden rounded-3xl border border-border/80 bg-card shadow-xs hover:shadow-md transition-all"
         >
           <div className="relative aspect-4/3 w-full overflow-hidden bg-muted">
-            {item.serviceImage && (
-              <Image
-                src={item.serviceImage}
-                alt={item.serviceName}
-                fill
-                sizes="(min-width: 1024px) 28vw, (min-width: 640px) 45vw, 92vw"
-                className="object-cover"
-              />
-            )}
+            <Image
+              src={
+                item.serviceImage ||
+                "https://ik.imagekit.io/muhammadsakib/Assignment_09/wedding_01.jpg"
+              }
+              alt={item.serviceName}
+              fill
+              sizes="(min-width: 1024px) 28vw, (min-width: 640px) 45vw, 92vw"
+              className="object-cover"
+            />
             <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-card/90 backdrop-blur-md text-foreground text-[11px] font-semibold">
               {item.serviceCategory}
             </span>

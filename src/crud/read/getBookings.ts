@@ -1,5 +1,6 @@
 "use server";
 
+import { API_BASE_URL } from "@/config/env";
 import { getAuthFetchHeaders } from "@/lib/server-api";
 import type {
   BookingRecord,
@@ -10,19 +11,10 @@ import type {
 export async function getBookings(
   status?: BookingStatus,
 ): Promise<BookingServiceResult<BookingRecord[]>> {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return {
-      success: false,
-      message: "Backend API URL is not configured.",
-      data: [],
-    };
-  }
-
   try {
     const authHeaders = await getAuthFetchHeaders();
     const query = status ? `?status=${encodeURIComponent(status)}` : "";
-    const res = await fetch(`${baseUrl}/bookings${query}`, {
+    const res = await fetch(`${API_BASE_URL}/bookings${query}`, {
       method: "GET",
       headers: authHeaders,
       cache: "no-store",

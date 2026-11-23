@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { API_BASE_URL } from "@/config/env";
 import { getAuthFetchHeaders } from "@/lib/server-api";
 import type {
   SavedServiceRecord,
@@ -11,14 +12,9 @@ import type {
 export async function saveService(
   input: SaveServiceInput,
 ): Promise<SavedServiceResult<SavedServiceRecord>> {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return { success: false, message: "Backend API URL is not configured." };
-  }
-
   try {
     const authHeaders = await getAuthFetchHeaders(true);
-    const res = await fetch(`${baseUrl}/saved`, {
+    const res = await fetch(`${API_BASE_URL}/saved`, {
       method: "POST",
       headers: authHeaders,
       body: JSON.stringify({ serviceId: input.serviceId }),

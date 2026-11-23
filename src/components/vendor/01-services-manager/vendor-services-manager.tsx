@@ -115,6 +115,11 @@ export function VendorServicesManager({
           text: res.message || "Upload failed. Paste an image URL instead.",
         });
       }
+    } catch (err: unknown) {
+      setFeedback({
+        type: "error",
+        text: err instanceof Error ? err.message : "Failed to upload image.",
+      });
     } finally {
       setIsUploading(false);
       e.target.value = "";
@@ -409,6 +414,24 @@ export function VendorServicesManager({
                 />
               </label>
             </div>
+            {imageUrl && (
+              <div className="relative mt-2 w-36 h-24 rounded-xl overflow-hidden border border-border group bg-muted">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={imageUrl}
+                  alt="Service preview"
+                  className="w-full h-full object-cover"
+                />
+                <button
+                  type="button"
+                  onClick={() => setImageUrl("")}
+                  className="absolute top-1 right-1 p-1 rounded-full bg-background/80 text-destructive hover:bg-destructive hover:text-destructive-foreground transition-colors cursor-pointer"
+                  title="Remove image"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="space-y-1.5">
@@ -468,15 +491,16 @@ export function VendorServicesManager({
               className="rounded-3xl border border-border/80 bg-card overflow-hidden shadow-xs flex flex-col"
             >
               <div className="relative aspect-16/9 w-full bg-muted">
-                {item.images[0] && (
-                  <Image
-                    src={item.images[0]}
-                    alt={item.serviceName}
-                    fill
-                    sizes="(min-width: 768px) 40vw, 94vw"
-                    className="object-cover"
-                  />
-                )}
+                <Image
+                  src={
+                    item.images?.[0] ||
+                    "https://ik.imagekit.io/muhammadsakib/Assignment_09/wedding_01.jpg"
+                  }
+                  alt={item.serviceName}
+                  fill
+                  sizes="(min-width: 768px) 40vw, 94vw"
+                  className="object-cover"
+                />
                 <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
                   <span
                     className={cn(

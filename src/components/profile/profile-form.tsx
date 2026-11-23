@@ -66,6 +66,11 @@ export function ProfileForm({ profile }: ProfileFormProps) {
             "Could not upload avatar. Paste an image URL instead.",
         });
       }
+    } catch (err: unknown) {
+      setFeedback({
+        type: "error",
+        text: err instanceof Error ? err.message : "Failed to upload image.",
+      });
     } finally {
       setIsUploading(false);
       e.target.value = "";

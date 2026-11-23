@@ -1,8 +1,16 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { MongoClient } from "mongodb";
+import {
+  MONGODB_URI,
+  DB_NAME,
+  BETTER_AUTH_SECRET,
+  BETTER_AUTH_URL,
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+} from "@/config/env";
 
-const uri = process.env.MONGODB_URI as string;
+const uri = MONGODB_URI;
 
 // Reuse MongoClient across Next.js hot reloads to avoid connection leaks
 const globalForMongo = globalThis as unknown as { mongoClient?: MongoClient };
@@ -11,15 +19,15 @@ if (process.env.NODE_ENV !== "production") {
   globalForMongo.mongoClient = client;
 }
 
-const db = client.db(process.env.DB_NAME || "WedPlan");
+const db = client.db(DB_NAME);
 
 // Only standard customer and vendor roles may be chosen at public sign-up
 const PUBLIC_ROLES = new Set(["user", "customer", "vendor"]);
 
 export const auth = betterAuth({
   database: mongodbAdapter(db),
-  secret: process.env.BETTER_AUTH_SECRET?.trim(),
-  baseURL: process.env.BETTER_AUTH_URL?.trim(),
+  secret: BETTER_AUTH_SECRET.trim(),
+  baseURL: BETTER_AUTH_URL.trim(),
   user: {
     additionalFields: {
       role: {
@@ -68,8 +76,8 @@ export const auth = betterAuth({
   },
   socialProviders: {
     google: {
-      clientId: (process.env.GOOGLE_CLIENT_ID || "").trim(),
-      clientSecret: (process.env.GOOGLE_CLIENT_SECRET || "").trim(),
+      clientId: GOOGLE_CLIENT_ID.trim(),
+      clientSecret: GOOGLE_CLIENT_SECRET.trim(),
     },
   },
 });

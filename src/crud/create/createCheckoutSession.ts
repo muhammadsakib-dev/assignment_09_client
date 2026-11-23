@@ -1,5 +1,6 @@
 "use server";
 
+import { API_BASE_URL } from "@/config/env";
 import { getAuthFetchHeaders } from "@/lib/server-api";
 import type {
   BillingCycle,
@@ -10,14 +11,9 @@ import type {
 export async function createCheckoutSession(
   billingCycle: BillingCycle = "monthly",
 ): Promise<CheckoutServiceResult<CheckoutSessionData>> {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return { success: false, message: "Backend API URL is not configured." };
-  }
-
   try {
     const authHeaders = await getAuthFetchHeaders(true);
-    const res = await fetch(`${baseUrl}/checkout/create-session`, {
+    const res = await fetch(`${API_BASE_URL}/checkout/create-session`, {
       method: "POST",
       headers: authHeaders,
       body: JSON.stringify({ billingCycle }),

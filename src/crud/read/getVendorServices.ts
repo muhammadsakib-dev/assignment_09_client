@@ -1,5 +1,6 @@
 "use server";
 
+import { API_BASE_URL } from "@/config/env";
 import { getAuthFetchHeaders } from "@/lib/server-api";
 import type {
   VendorServiceRecord,
@@ -9,18 +10,9 @@ import type {
 export async function getVendorServices(): Promise<
   VendorServiceResult<VendorServiceRecord[]>
 > {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return {
-      success: false,
-      message: "Backend API URL is not configured.",
-      data: [],
-    };
-  }
-
   try {
     const authHeaders = await getAuthFetchHeaders();
-    const res = await fetch(`${baseUrl}/services/mine`, {
+    const res = await fetch(`${API_BASE_URL}/services/mine`, {
       method: "GET",
       headers: authHeaders,
       cache: "no-store",

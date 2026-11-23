@@ -1,21 +1,17 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { API_BASE_URL } from "@/config/env";
 import { getAuthFetchHeaders } from "@/lib/server-api";
 import type { SavedServiceResult } from "../saved.types";
 
 export async function removeSavedService(
   serviceId: string,
 ): Promise<SavedServiceResult<null>> {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return { success: false, message: "Backend API URL is not configured." };
-  }
-
   try {
     const authHeaders = await getAuthFetchHeaders();
     const res = await fetch(
-      `${baseUrl}/saved/${encodeURIComponent(serviceId)}`,
+      `${API_BASE_URL}/saved/${encodeURIComponent(serviceId)}`,
       {
         method: "DELETE",
         headers: authHeaders,

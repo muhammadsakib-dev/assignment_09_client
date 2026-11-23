@@ -1,21 +1,17 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { API_BASE_URL } from "@/config/env";
 import { getAuthFetchHeaders } from "@/lib/server-api";
 import type { VendorServiceResult } from "../vendor-services.types";
 
 export async function deleteVendorService(
   serviceId: string,
 ): Promise<VendorServiceResult<null>> {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return { success: false, message: "Backend API URL is not configured." };
-  }
-
   try {
     const authHeaders = await getAuthFetchHeaders();
     const res = await fetch(
-      `${baseUrl}/services/${encodeURIComponent(serviceId)}`,
+      `${API_BASE_URL}/services/${encodeURIComponent(serviceId)}`,
       {
         method: "DELETE",
         headers: authHeaders,

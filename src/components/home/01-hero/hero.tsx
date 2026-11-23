@@ -11,11 +11,11 @@ export function Hero() {
       <section className="relative overflow-hidden bg-background">
         {/* Soft Wedding Ambient Glows */}
         <div
-          className="pointer-events-none absolute -top-28 -left-24 size-96 rounded-full bg-primary/10 blur-3xl"
+          className="pointer-events-none absolute -bottom-32 -left-28 w-[420px] h-[600px] sm:w-[520px] sm:h-[700px] rounded-full bg-gradient-to-t from-primary/25 via-primary/10 to-transparent blur-3xl"
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute top-1/3 -right-24 size-96 rounded-full bg-champagne/40 dark:bg-primary/5 blur-3xl"
+          className="pointer-events-none absolute -bottom-16 left-10 w-80 h-[500px] rounded-full bg-gradient-to-tr from-champagne/40 via-primary/10 to-transparent dark:from-primary/15 dark:to-transparent blur-3xl"
           aria-hidden="true"
         />
 

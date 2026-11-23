@@ -75,6 +75,10 @@ export function SignUp() {
           res.message || "Could not upload image. You can skip or try again.",
         );
       }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Could not upload image.";
+      setErrorMessage(msg);
+      toast.add({ title: "Upload failed", description: msg, type: "error" });
     } finally {
       setIsUploading(false);
       e.target.value = "";

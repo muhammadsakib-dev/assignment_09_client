@@ -1,5 +1,6 @@
 "use server";
 
+import { API_BASE_URL } from "@/config/env";
 import type { VendorServiceRecord } from "../vendor-services.types";
 
 export interface SingleServiceResponse {
@@ -12,18 +13,8 @@ export interface SingleServiceResponse {
 export async function getPublicServiceById(
   id: string,
 ): Promise<SingleServiceResponse> {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return {
-      success: false,
-      statusCode: 500,
-      message: "Backend API URL is not configured.",
-      data: null,
-    };
-  }
-
   try {
-    const res = await fetch(`${baseUrl}/services/${encodeURIComponent(id)}`, {
+    const res = await fetch(`${API_BASE_URL}/services/${encodeURIComponent(id)}`, {
       method: "GET",
       cache: "no-store",
     });

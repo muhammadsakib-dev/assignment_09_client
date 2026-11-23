@@ -1,23 +1,15 @@
 "use server";
 
+import { API_BASE_URL } from "@/config/env";
 import { getAuthFetchHeaders } from "@/lib/server-api";
 import type { SavedServiceRecord, SavedServiceResult } from "../saved.types";
 
 export async function getSavedServices(): Promise<
   SavedServiceResult<SavedServiceRecord[]>
 > {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return {
-      success: false,
-      message: "Backend API URL is not configured.",
-      data: [],
-    };
-  }
-
   try {
     const authHeaders = await getAuthFetchHeaders();
-    const res = await fetch(`${baseUrl}/saved`, {
+    const res = await fetch(`${API_BASE_URL}/saved`, {
       method: "GET",
       headers: authHeaders,
       cache: "no-store",

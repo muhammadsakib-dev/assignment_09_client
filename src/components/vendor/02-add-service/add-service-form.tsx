@@ -94,6 +94,10 @@ export function AddServiceForm({
         setErrorMessage(msg);
         toast.add({ title: "Upload failed", description: msg, type: "error" });
       }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to upload image.";
+      setErrorMessage(msg);
+      toast.add({ title: "Upload failed", description: msg, type: "error" });
     } finally {
       setIsUploading(false);
       e.target.value = "";

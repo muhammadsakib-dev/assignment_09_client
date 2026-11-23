@@ -1,5 +1,6 @@
 "use server";
 
+import { API_BASE_URL } from "@/config/env";
 import type { VendorServiceRecord } from "../vendor-services.types";
 
 export interface PublicServicesResponse {
@@ -16,16 +17,6 @@ export async function getPublicServices(options?: {
   sort?: "newest" | "price-asc" | "price-desc";
   limit?: number;
 }): Promise<PublicServicesResponse> {
-  const baseUrl = process.env.API_BASE_URL;
-  if (!baseUrl) {
-    return {
-      success: false,
-      message: "Backend API URL is not configured.",
-      services: [],
-      categoryCounts: {},
-    };
-  }
-
   try {
     const params = new URLSearchParams();
     if (options?.category) params.set("category", options.category);
@@ -35,7 +26,7 @@ export async function getPublicServices(options?: {
     if (options?.limit) params.set("limit", String(options.limit));
 
     const query = params.toString();
-    const res = await fetch(`${baseUrl}/services${query ? `?${query}` : ""}`, {
+    const res = await fetch(`${API_BASE_URL}/services${query ? `?${query}` : ""}`, {
       method: "GET",
       cache: "no-store",
     });

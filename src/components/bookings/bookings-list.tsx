@@ -89,15 +89,16 @@ export function BookingsList({
             href={`/services/${booking.serviceId}`}
             className="relative aspect-16/10 md:aspect-square md:w-36 md:h-36 shrink-0 overflow-hidden rounded-2xl border border-border/70 bg-muted"
           >
-            {booking.serviceImage && (
-              <Image
-                src={booking.serviceImage}
-                alt={booking.serviceName}
-                fill
-                sizes="(min-width: 768px) 144px, 92vw"
-                className="object-cover"
-              />
-            )}
+            <Image
+              src={
+                booking.serviceImage ||
+                "https://ik.imagekit.io/muhammadsakib/Assignment_09/wedding_01.jpg"
+              }
+              alt={booking.serviceName}
+              fill
+              sizes="(min-width: 768px) 144px, 92vw"
+              className="object-cover"
+            />
           </Link>
 
           <div className="flex-1 min-w-0 flex flex-col justify-between gap-4">
